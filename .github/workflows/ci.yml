@@ -23,9 +23,7 @@ jobs:
           cache: 'maven'
       - name: Build with Maven 
         run: mvn clean compile
-        
-  sonarqube: 
-    steps:
+    
       - name: Cache SonarQube packages
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 
         with:
