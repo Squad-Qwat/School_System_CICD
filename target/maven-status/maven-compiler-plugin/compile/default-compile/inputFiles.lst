@@ -1,21 +1,21 @@
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\com\mycompany\Aktivitas\Aktivitas.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\com\mycompany\Aktivitas\Diskusi.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\com\mycompany\Aktivitas\Konsultasi.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\com\mycompany\Aktivitas\ProjectMain.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\com\mycompany\Aktivitas\SesiTutoring.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\com\mycompany\classjadwal\IfaceJadwal.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\com\mycompany\classjadwal\Jadwal.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\com\mycompany\classjadwal\JadwalPelajar.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\com\mycompany\classjadwal\JadwalTutor.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\com\mycompany\datadiri\Datadiri.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\com\mycompany\datadiri\UserPelajar.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\com\mycompany\datadiri\UserTutor.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\com\mycompany\pembelajaran\LatihanSoal.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\com\mycompany\pembelajaran\Materi.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\com\mycompany\pembelajaran\Pembelajaran.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\com\mycompany\transaksi\Pembayaran.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\com\mycompany\transaksi\Refund.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\com\mycompany\transaksi\Transaksi.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\regis\login\Login.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\regis\login\Registrasi.java
-D:\Telkom Univ\Semester 6\MKEPL\School_System_CICD\src\main\java\regis\login\User.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/com/mycompany/Aktivitas/Aktivitas.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/com/mycompany/Aktivitas/Diskusi.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/com/mycompany/Aktivitas/Konsultasi.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/com/mycompany/Aktivitas/ProjectMain.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/com/mycompany/Aktivitas/SesiTutoring.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/com/mycompany/classjadwal/IfaceJadwal.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/com/mycompany/classjadwal/Jadwal.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/com/mycompany/classjadwal/JadwalPelajar.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/com/mycompany/classjadwal/JadwalTutor.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/com/mycompany/datadiri/Datadiri.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/com/mycompany/datadiri/UserPelajar.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/com/mycompany/datadiri/UserTutor.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/com/mycompany/pembelajaran/LatihanSoal.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/com/mycompany/pembelajaran/Materi.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/com/mycompany/pembelajaran/Pembelajaran.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/com/mycompany/transaksi/Pembayaran.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/com/mycompany/transaksi/Refund.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/com/mycompany/transaksi/Transaksi.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/regis/login/Login.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/regis/login/Registrasi.java
+/home/calderaly/Documents/Project/MKEPL/School_System_CICD/src/main/java/regis/login/User.java
