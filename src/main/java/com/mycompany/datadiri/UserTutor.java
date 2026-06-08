@@ -81,22 +81,33 @@ public class UserTutor extends Datadiri
         System.out.println("Tutoring started...");
         try 
         { 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            Scanner scanTutor = new Scanner(System.in);
             System.out.print("Enter duration of the tutoring session in seconds: "); 
-            int durationSecond = Integer.parseInt(reader.readLine()); 
+            int durationSecond = Integer.parseInt(scanTutor.nextLine()); 
+            menjalankanTutoring(durationSecond);
+        }
+        catch (Exception e) 
+        { 
+            System.out.println("An error occurred: " + e.getMessage()); 
+        }
+    }
+
+    public void menjalankanTutoring(int durationSecond) 
+    { 
+        System.out.println("Tutoring started...");
+        try 
+        { 
             LocalTime startTime = LocalTime.now(); 
             LocalTime endTime = startTime.plusSeconds(durationSecond); 
             System.out.println("Tutoring session started at " + formatTime(startTime) + " and will end at " + formatTime(endTime)); 
             while(LocalTime.now().isBefore(endTime)) 
             { 
                 // Simulate tutoring session 
-                Thread.sleep(Duration.ofSeconds(durationSecond));
+                Thread.sleep(durationSecond * 1000L);
             }
-            
-            // Sleep for 1 second to simulate time passing 
             System.out.println("Tutoring session ended at " + formatTime(LocalTime.now())); 
         }
-        catch (IOException | InterruptedException e) 
+        catch (InterruptedException e) 
         { 
             System.out.println("An error occurred: " + e.getMessage()); 
         }

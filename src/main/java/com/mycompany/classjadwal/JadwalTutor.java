@@ -51,7 +51,6 @@ import java.util.*;
         try 
         {
             Scanner scan = new Scanner(System.in);
-            // Format: nama, lahir, alamat, golongan darah, jenis kelamin, umur, tempat kerja, pengalaman, kemampuan
             System.out.print("Masukan nama: ");
             String NamaTutor = scan.nextLine();
             System.out.print("Masukan tanggal lahir spasi dengan (-): ");
@@ -60,20 +59,24 @@ import java.util.*;
             String alamatTutor = scan.nextLine();
             System.out.print("Umur: ");
             int umurTutor = scan.nextInt();
-            Scanner scans = new Scanner(System.in);
+            scan.nextLine(); // Mengonsumsi newline sisa dari nextInt()
+            System.out.print("Masukan jenis kelamin (L/P): ");
+            String jenisKelamin = scan.nextLine();
             System.out.print("Tempat berkerja saat ini: ");
-            String Tempatbekerja = scans.nextLine(); 
+            String Tempatbekerja = scan.nextLine(); 
             System.out.print("Pengalaman: ");
-            String Pengalaman = scans.nextLine();
+            String Pengalaman = scan.nextLine();
             System.out.print("Kemampuan: ");
-            String Kemampuan = scans.nextLine();
-            UserTutor ut = new UserTutor(NamaTutor, dataLahirTutor, alamatTutor, scans.nextLine(), umurTutor, Tempatbekerja, Pengalaman, Kemampuan);
+            String Kemampuan = scan.nextLine();
+            UserTutor ut = new UserTutor(NamaTutor, dataLahirTutor, alamatTutor, jenisKelamin, umurTutor, Tempatbekerja, Pengalaman, Kemampuan);
             System.out.println("Memeriksa ketersediaan tutor...");
             if(schedule.isEmpty())
             {
+                System.out.print("Enter duration of the tutoring session in seconds: ");
+                int durasi = Integer.parseInt(scan.nextLine());
                 ut.menerimaPesanan(NamaTutor);
                 konfirmasiPesanan();
-                ut.menjalankanTutoring();
+                ut.menjalankanTutoring(durasi);
             }
             else
             {

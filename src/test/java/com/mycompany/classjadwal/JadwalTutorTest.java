@@ -66,7 +66,7 @@ class JadwalTutorTest {
         String[] lines = input.toString().split("\n");
         lines[3] = "30";
         // for menjalankanTutoring's Integer.parseInt
-        lines[10] = "1";
+        lines[9] = "1";
 
         input = new StringBuilder();
         for (String line : lines) {
