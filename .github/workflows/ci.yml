@@ -1,4 +1,4 @@
-name: CI
+name: Continous Integration
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -7,7 +7,7 @@ on:
   push:
     branches: ["main", "dev", "feat/*", "dev-*"]
   pull_request:
-    branches: ["main", "dev", "dev-*"]
+    branches: ["main", "dev"]
 
 jobs:
   build:
@@ -40,7 +40,9 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Run Tests
-      run: mvn test --file pom.xml
+      run: |
+        mvn test --file pom.xml
+        mvn clean compile
   sonnarcloud:
     needs: build
     runs-on: ubuntu-latest
@@ -54,8 +56,19 @@ jobs:
           java-version: 21
           distribution: 'temurin'
           cache: 'maven'
-      - name: SonarCloud Scan
+          cache-dependency-path: 'pom.xml'
+      - name: Cache SonarQube packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn verify sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=squad-qwat -Dsonar.projectKey=Squad-Qwat_School_System_CICD
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=test-doang-cicd_school-system-cicd -Dsonar.organization=test-doang-cicd
+      # - name: SonarCloud Scan
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #   run: mvn verify sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=squad-qwat -Dsonar.projectKey=Squad-Qwat_School_System_CICD
