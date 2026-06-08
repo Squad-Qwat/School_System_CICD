@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: ["main", "dev", "feat/*"]
+    branches: ["main", "dev", "feat/*", "dev-*"]
   pull_request:
-    branches: ["main", "dev"]
+    branches: ["main", "dev", "dev-*"]
 
 jobs:
   build:
@@ -35,7 +35,6 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
