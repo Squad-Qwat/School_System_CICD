@@ -3,20 +3,33 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.classjadwal;
+
 import com.mycompany.datadiri.*;
 import java.util.*;
+
 /**
  *
  * @author Akfarizi
  */
 
- public class JadwalTutor extends Jadwal implements IfaceJadwal {
+public class JadwalTutor extends Jadwal implements IfaceJadwal {
+
     private int idTutor;
     private String namaTutor;
     private float rating;
     private List<String> schedule;
 
-    public JadwalTutor(int tanggal, String bulan, int tahun, String hari, String kelas, String mataPelajaran, int idTutor, String namaTutor, float rating) {
+    public JadwalTutor(
+        int tanggal,
+        String bulan,
+        int tahun,
+        String hari,
+        String kelas,
+        String mataPelajaran,
+        int idTutor,
+        String namaTutor,
+        float rating
+    ) {
         super(tanggal, bulan, tahun, hari, kelas, mataPelajaran);
         this.idTutor = idTutor;
         this.namaTutor = namaTutor;
@@ -24,8 +37,7 @@ import java.util.*;
         this.schedule = new ArrayList<String>();
     }
 
-    public int getIdTutor() 
-    {
+    public int getIdTutor() {
         return idTutor;
     }
 
@@ -34,23 +46,28 @@ import java.util.*;
     }
 
     public String getTutorInfo() {
-        return "ID Tutor: " + idTutor + ", Nama: " + namaTutor + ", Rating: " + rating;
+        return (
+            "ID Tutor: " +
+            idTutor +
+            ", Nama: " +
+            namaTutor +
+            ", Rating: " +
+            rating
+        );
     }
-    
-    public void initializeSchedule()
-    {
+
+    public void initializeSchedule() {
         // Sementara, agak bingung yang ini
         schedule.add(4, "Senin");
         schedule.add(3, "Rabu");
         schedule.add(5, "Kamis");
         schedule.add(1, "Sabtu");
     }
-    
+
     @Override
     public void cekKetersediaan() {
-        try 
-        {
-            Scanner scan = new Scanner(System.in);
+        Scanner scan = new Scanner(System.in);
+        try {
             // Format: nama, lahir, alamat, golongan darah, jenis kelamin, umur, tempat kerja, pengalaman, kemampuan
             System.out.print("Masukan nama: ");
             String NamaTutor = scan.nextLine();
@@ -60,52 +77,50 @@ import java.util.*;
             String alamatTutor = scan.nextLine();
             System.out.print("Umur: ");
             int umurTutor = scan.nextInt();
-            Scanner scans = new Scanner(System.in);
+            scan.nextLine(); // consume newline
             System.out.print("Tempat berkerja saat ini: ");
-            String Tempatbekerja = scans.nextLine(); 
+            String Tempatbekerja = scan.nextLine();
             System.out.print("Pengalaman: ");
-            String Pengalaman = scans.nextLine();
+            String Pengalaman = scan.nextLine();
             System.out.print("Kemampuan: ");
-            String Kemampuan = scans.nextLine();
-            UserTutor ut = new UserTutor(NamaTutor, dataLahirTutor, alamatTutor, scans.nextLine(), umurTutor, Tempatbekerja, Pengalaman, Kemampuan);
+            String Kemampuan = scan.nextLine();
+            UserTutor ut = new UserTutor(
+                NamaTutor,
+                dataLahirTutor,
+                alamatTutor,
+                scan.nextLine(),
+                umurTutor,
+                Tempatbekerja,
+                Pengalaman,
+                Kemampuan
+            );
             System.out.println("Memeriksa ketersediaan tutor...");
-            if(schedule.isEmpty())
-            {
+            if (schedule.isEmpty()) {
                 ut.menerimaPesanan(NamaTutor);
                 konfirmasiPesanan();
                 ut.menjalankanTutoring();
-            }
-            else
-            {
+            } else {
                 ut.menolakPesanan(NamaTutor);
             }
-        } 
-        catch (InputMismatchException e) 
-        {
+        } catch (InputMismatchException e) {
             //System.err.println(e.fillInStackTrace());
             //System.err.println(Arrays.toString(e.getStackTrace()));
             System.err.println(e.getCause());
             System.err.println(e.getMessage());
-        }
-        finally
-        {
+        } finally {
+            scan.close();
             konfirmasiPesanan();
         }
     }
 
     @Override
     public void konfirmasiPesanan() {
-        try 
-        {
+        try {
             System.out.println("Pesanan diterima.");
-        } 
-        catch (Exception e) 
-        {
+        } catch (Exception e) {
             System.err.println(e.getCause());
             System.err.println(e.getMessage());
-        }
-        finally
-        {
+        } finally {
             System.out.println("Proses selesai!");
         }
     }
