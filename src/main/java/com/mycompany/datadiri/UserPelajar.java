@@ -25,6 +25,14 @@ public class UserPelajar extends Datadiri{
         return sekolah;
     }
 
+    public String getCourse() {
+        return course;
+    }
+
+    public String getTutor() {
+        return tutor;
+    }
+
     public void setSekolah(String sekolah) {
         this.sekolah = sekolah;
     }
