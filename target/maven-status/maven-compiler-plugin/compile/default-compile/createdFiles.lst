@@ -18,3 +18,4 @@ com\mycompany\classjadwal\Jadwal.class
 com\mycompany\datadiri\Datadiri.class
 com\mycompany\Aktivitas\Konsultasi.class
 com\mycompany\transaksi\Transaksi.class
+com\mycompany\classjadwal\IfaceJadwal.class
