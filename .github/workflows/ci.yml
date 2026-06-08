@@ -1,23 +1,42 @@
-name: CI 
+name: CI
 
-on: 
+on:
   push:
-    branches: [ "main", "dev" ]
-  pull_request: 
-    branches: [ "main" ]
-    
-jobs: 
-  build: 
+    branches: ["main", "dev", "feat/*"]
+  pull_request:
+    branches: ["main", "dev"]
+
+jobs:
+  build:
     runs-on: ubuntu-latest
-    steps: 
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+    steps:
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 
+          fetch-depth: 0
       - name: Setup JDK 21
-        uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9
-        with: 
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: "temurin"
+          cache: "maven"
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+  sonnarcloud:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup JDK 21
+        uses: actions/setup-java@v4
+        with:
           java-version: 21
           distribution: 'temurin'
           cache: 'maven'
-      - name: Build with Maven 
-        run: mvn -B package --file pom.xml
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn verify sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=squad-qwat -Dsonar.projectKey=School_System_CICD
