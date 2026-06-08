@@ -92,6 +92,8 @@ public class ProjectMain {
                         userPelajar.memilihTutor(Tutor);
                         userPelajar.menghubungiViaChat();
                         userPelajar.melakukanPembayaran(1000, namaPelajar, Tutor);
+                        pelajarSS.close();
+                        pelajarS.close();
                     }
                     catch(InputMismatchException e)
                     {
@@ -135,6 +137,8 @@ public class ProjectMain {
                         else {
                             System.out.println("Bukan jawaban valid, masukkan respon yang benar");
                         }
+                        ssc.close();
+                        sc.close();
                     }
                     catch(InputMismatchException e)
                     {
@@ -250,6 +254,7 @@ public class ProjectMain {
                         System.out.print("Masukkan Jawaban Anda: ");
                         String jawabanUser = scanner.nextLine();
                         latihanSoal.periksaJawaban(jawabanUser);
+                        scanner.close();
                     }
                     catch(Exception e) //Penyebab errornya adalah exception class yang digunakan terlalu spesifik
                     {
@@ -339,6 +344,7 @@ public class ProjectMain {
                         ((SesiTutoring)sesiTutoring).postTugas();
                         ((SesiTutoring)sesiTutoring).postCatatanPembelajaran();
                         System.out.println(sesiTutoring.cekStatus());
+                        sc.close();
                         break;
                     } 
                     catch (Exception e) 
@@ -355,6 +361,7 @@ public class ProjectMain {
                     break;
             }
         } while(input != 0);
+        s.close();
         scan.close();
     }
     

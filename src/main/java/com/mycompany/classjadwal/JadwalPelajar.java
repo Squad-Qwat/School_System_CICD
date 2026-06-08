@@ -70,7 +70,8 @@ import java.util.*;
             {
                 System.out.println("Tutor tidak tersedia");
             }
-        
+            pelajarSS.close();
+            pelajarS.close();
     }
 
     @Override

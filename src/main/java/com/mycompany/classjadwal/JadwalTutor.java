@@ -79,6 +79,8 @@ import java.util.*;
             {
                 ut.menolakPesanan(NamaTutor);
             }
+            scans.close();
+            scan.close();
         } 
         catch (InputMismatchException e) 
         {
