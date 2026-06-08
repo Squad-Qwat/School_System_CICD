@@ -1,12 +1,18 @@
 package com.mycompany.classjadwal;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.Test;
+
 class JadwalTest {
+
     @Test
     void testJadwal() {
-        Jadwal j = new Jadwal(10, "Oktober", 2024, "Senin", "10A", "Math");
+        Jadwal j = new Jadwal(
+            new DateInfo(10, "Oktober", 2024, "Senin"),
+            "10A",
+            "Math"
+        );
         assertEquals(10, j.getTanggal());
         assertEquals("Oktober", j.getBulan());
         assertEquals(2024, j.getTahun());

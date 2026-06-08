@@ -3,12 +3,20 @@
  */
 
 package com.mycompany.pembelajaran;
-//import java.util.Arrays;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author User
  */
 public class Pembelajaran {
+
+    private static final Logger logger = Logger.getLogger(
+        Pembelajaran.class.getName()
+    );
+
     private String kodeMataPelajaran;
     private String namaMataPelajaran;
     private String jenjangPendidikan;
@@ -37,20 +45,25 @@ public class Pembelajaran {
         this.jenjangPendidikan = pendidikan;
     }
 
-    public void tampilkanInfo() 
-    {
-        try 
-        {
-            System.out.println("Kode Mata Pelajaran: " + kodeMataPelajaran);
-            System.out.println("Nama Mata Pelajaran: " + namaMataPelajaran);
-            System.out.println("Jenjang Pendidikan: " + jenjangPendidikan);
-        } 
-        catch (Exception e) 
-        {
-            //System.err.println(e.fillInStackTrace());
-            //System.err.println(Arrays.toString(e.getStackTrace()));
-            System.err.println(e.getCause());
-            System.err.println("Error terjadi: " + e.getMessage());
+    public void tampilkanInfo() {
+        try {
+            logger.log(
+                Level.INFO,
+                "Kode Mata Pelajaran: {0}",
+                kodeMataPelajaran
+            );
+            logger.log(
+                Level.INFO,
+                "Nama Mata Pelajaran: {0}",
+                namaMataPelajaran
+            );
+            logger.log(
+                Level.INFO,
+                "Jenjang Pendidikan: {0}",
+                jenjangPendidikan
+            );
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error terjadi: {0}", e.getMessage());
         }
     }
 }

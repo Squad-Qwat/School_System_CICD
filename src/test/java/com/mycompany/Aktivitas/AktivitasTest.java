@@ -1,25 +1,27 @@
 package com.mycompany.Aktivitas;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.Test;
+
 class AktivitasTest {
+
     @Test
     void testAktivitas() {
         Aktivitas a = new Aktivitas("12-12-2024", 60, "diam");
         assertEquals("12-12-2024", a.getJadwal());
         assertEquals(60, a.getDurasi());
-        assertFalse(a.MulaiAktivitas());
+        assertFalse(a.mulaiAktivitas());
 
         a.setAktivitas("Mulai");
         assertEquals("Mulai", a.cekStatus());
-        assertTrue(a.MulaiAktivitas());
+        assertTrue(a.mulaiAktivitas());
 
         a.setAktivitas("Mulai");
 
         a.setAktivitas("Tutup");
         assertEquals("diam", a.cekStatus());
-        assertFalse(a.SelesaiAktivitas());
+        assertFalse(a.selesaiAktivitas());
 
         a.setAktivitas("Tutup");
 

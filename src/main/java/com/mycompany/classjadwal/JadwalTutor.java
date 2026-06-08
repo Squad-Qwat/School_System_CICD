@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.classjadwal;
+
 import com.mycompany.datadiri.*;
 import com.mycompany.utils.InputUtils;
 import java.util.*;
@@ -12,8 +13,7 @@ import java.util.logging.Logger;
  *
  * @author Akfarizi
  */
-
- public class JadwalTutor extends Jadwal implements IfaceJadwal {
+public class JadwalTutor extends Jadwal implements IfaceJadwal {
     private int idTutor;
     private String namaTutor;
     private float rating;
@@ -23,16 +23,16 @@ import java.util.logging.Logger;
         JadwalTutor.class.getName()
     );
 
-    public JadwalTutor(int tanggal, String bulan, int tahun, String hari, String kelas, String mataPelajaran, int idTutor, String namaTutor, float rating) {
-        super(tanggal, bulan, tahun, hari, kelas, mataPelajaran);
+    // int tanggal, String bulan, int tahun, String hari
+    public JadwalTutor(DateInfo dateInfo, String kelas, String mataPelajaran, int idTutor, String namaTutor, float rating) {
+        super(dateInfo, kelas, mataPelajaran); // tanggal, bulan, tahun, hari
         this.idTutor = idTutor;
         this.namaTutor = namaTutor;
         this.rating = rating;
-        this.schedule = new ArrayList<String>();
+        this.schedule = new ArrayList<>();
     }
 
-    public int getIdTutor() 
-    {
+    public int getIdTutor() {
         return idTutor;
     }
 
@@ -41,18 +41,24 @@ import java.util.logging.Logger;
     }
 
     public String getTutorInfo() {
-        return "ID Tutor: " + idTutor + ", Nama: " + namaTutor + ", Rating: " + rating;
+        return (
+            "ID Tutor: " +
+            idTutor +
+            ", Nama: " +
+            namaTutor +
+            ", Rating: " +
+            rating
+        );
     }
-    
-    public void initializeSchedule()
-    {
+
+    public void initializeSchedule() {
         // Sementara, agak bingung yang ini
         schedule.add(4, "Senin");
         schedule.add(3, "Rabu");
         schedule.add(5, "Kamis");
         schedule.add(1, "Sabtu");
     }
-    
+
     @Override
     public void cekKetersediaan() {
         /* 
@@ -142,18 +148,12 @@ import java.util.logging.Logger;
 
     @Override
     public void konfirmasiPesanan() {
-        try 
-        {
-            System.out.println("Pesanan diterima.");
-        } 
-        catch (Exception e) 
-        {
-            System.err.println(e.getCause());
-            System.err.println(e.getMessage());
-        }
-        finally
-        {
-            System.out.println("Proses selesai!");
+        try {
+            logger.info("Pesanan diterima.");
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        } finally {
+            logger.info("Proses selesai!");
         }
     }
 }

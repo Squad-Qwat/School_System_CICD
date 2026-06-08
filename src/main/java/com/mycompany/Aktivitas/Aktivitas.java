@@ -4,30 +4,34 @@
  */
 package com.mycompany.Aktivitas;
 
+import java.util.logging.Logger;
+
 /**
  *
  * @author timot
  */
-public class Aktivitas 
-{
+public class Aktivitas {
+
+    private static final Logger logger = Logger.getLogger(
+        Aktivitas.class.getName()
+    );
+    public static final String STATUS_MULAI = "Mulai";
+
     protected String jadwal;
     protected int durasi;
     protected String status;
 
-    public Aktivitas(String jadwal, int durasi, String status) 
-    {
+    public Aktivitas(String jadwal, int durasi, String status) {
         this.jadwal = jadwal;
         this.durasi = durasi;
         this.status = status;
     }
 
-    public void setJadwal(String jadwal) 
-    {
+    public void setJadwal(String jadwal) {
         this.jadwal = jadwal;
     }
 
-    public void setDurasi(int durasi) 
-    {
+    public void setDurasi(int durasi) {
         this.durasi = durasi;
     }
 
@@ -39,41 +43,31 @@ public class Aktivitas
         return durasi;
     }
 
-    public boolean MulaiAktivitas()
-    {
-        return status.equals("Mulai");
+    public boolean mulaiAktivitas() {
+        return status.equals(STATUS_MULAI);
     }
-    
-    public void setAktivitas(String action) 
-    {
-        // Jaga-jaga method MulaiDiskusi() dipanggil lebih dari sekali
-        if ("Mulai".equals(action) && status.equals("diam")) 
-        {
-            status = "Mulai";
-        } 
-        else
-        {
-            System.out.println("Aktivitas telah dimulai, silahkan coba lagi!");
+
+    public void setAktivitas(String action) {
+        // Jaga-jaga method mulaiDiskusi() dipanggil lebih dari sekali
+        if (STATUS_MULAI.equals(action) && status.equals("diam")) {
+            status = STATUS_MULAI;
+        } else {
+            logger.info("Aktivitas telah dimulai, silahkan coba lagi!");
         }
-        
-        // Jaga-jaga method TutupDiskusi() dipanggil lebih dari sekali
-        if ("Tutup".equals(action) && status.equals("Mulai")) 
-        {
+
+        // Jaga-jaga method tutupDiskusi() dipanggil lebih dari sekali
+        if ("Tutup".equals(action) && status.equals(STATUS_MULAI)) {
             status = "diam";
-        }
-        else
-        {
-            System.out.println("Aktivitas sudah selesai, silahkan coba lagi!");
+        } else {
+            logger.info("Aktivitas sudah selesai, silahkan coba lagi!");
         }
     }
 
-    public boolean SelesaiAktivitas()
-    {
+    public boolean selesaiAktivitas() {
         return status.equals("Selesai");
     }
 
-    public String cekStatus()
-    {
+    public String cekStatus() {
         return status;
     }
 }

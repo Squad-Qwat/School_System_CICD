@@ -3,135 +3,135 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.Aktivitas;
-import java.io.*;
+
+import com.mycompany.utils.InputUtils;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author timot
  */
-public class SesiTutoring extends Aktivitas
-{
-    private String IDMurid;
-    private String IDTutor;
+public class SesiTutoring extends Aktivitas {
+
+    private static final Logger logger = Logger.getLogger(
+        SesiTutoring.class.getName()
+    );
+
+    public record TutoringDetails(
+        String idMurid,
+        String idTutor,
+        String tugas,
+        String namaCourse,
+        String catatanPembelajaran
+    ) {}
+
+    private String idMurid;
+    private String idTutor;
     private String tugas;
     private String namaCourse;
     private String catatanPembelajaran;
 
-    public SesiTutoring(String jadwal, int durasi, String status, String IDMurid, String IDTutor, String tugas, String namaCourse, 
-    String catatanPembelajaran) 
-    {
+    public SesiTutoring(
+        String jadwal,
+        int durasi,
+        String status,
+        TutoringDetails details
+    ) {
         super(jadwal, durasi, status);
-        this.IDMurid = IDMurid;
-        this.IDTutor = IDTutor;
-        this.tugas = tugas;
-        this.namaCourse = namaCourse;
-        this.catatanPembelajaran = catatanPembelajaran;
+        this.idMurid = details.idMurid();
+        this.idTutor = details.idTutor();
+        this.tugas = details.tugas();
+        this.namaCourse = details.namaCourse();
+        this.catatanPembelajaran = details.catatanPembelajaran();
     }
 
-    public String getIDMurid() 
-    {
-        return IDMurid;
+    public String getIdMurid() {
+        return idMurid;
     }
 
-    public void setIDMurid(String IDMurid) 
-    {
-        this.IDMurid = IDMurid;
+    public void setIdMurid(String idMurid) {
+        this.idMurid = idMurid;
     }
 
-    public String getIDTutor() 
-    {
-        return IDTutor;
+    public String getIdTutor() {
+        return idTutor;
     }
 
-    public void setIDTutor(String IDTutor) 
-    {
-        this.IDTutor = IDTutor;
+    public void setIdTutor(String idTutor) {
+        this.idTutor = idTutor;
     }
 
-    public String getTugas() 
-    {
+    public String getTugas() {
         return tugas;
     }
 
-    public void setTugas(String tugas) 
-    {
+    public void setTugas(String tugas) {
         this.tugas = tugas;
     }
 
-    public String getNamaCourse() 
-    {
+    public String getNamaCourse() {
         return namaCourse;
     }
 
-    public void setNamaCourse(String namaCourse) 
-    {
+    public void setNamaCourse(String namaCourse) {
         this.namaCourse = namaCourse;
     }
 
-    public String getCatatanPembelajaran() 
-    {
+    public String getCatatanPembelajaran() {
         return catatanPembelajaran;
     }
 
-    public void setCatatanPembelajaran(String catatanPembelajaran) 
-    {
+    public void setCatatanPembelajaran(String catatanPembelajaran) {
         this.catatanPembelajaran = catatanPembelajaran;
     }
-    
-    public void postTugas()
-    {
-        try
-        {
-            System.out.printf("Post Tugas: %s\n", getTugas());
-            System.out.println("Tugas telah diposting");
-        } 
-        catch (Exception e) 
-        {
-            //System.err.println(e.getCause());
-            System.err.println(e.getMessage());
+
+    public void postTugas() {
+        try {
+            logger.log(Level.INFO, "Post Tugas: {0}%n", getTugas());
+            logger.info("Tugas telah diposting");
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage());
         }
     }
 
-    public void postCatatanPembelajaran()
-    {
-        try 
-        {
-            System.out.printf("Post Catatan Pembelajaran: %s\n", getCatatanPembelajaran());
-            System.out.println("Catatan telah dipost");
-        } 
-        catch (Exception e) 
-        {
-            //System.err.println(e.getCause());
-            System.err.println(e.getMessage());
+    public void postCatatanPembelajaran() {
+        try {
+            logger.log(
+                Level.INFO,
+                "Post Catatan Pembelajaran: {0}%n",
+                getCatatanPembelajaran()
+            );
+            logger.info("Catatan telah dipost");
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage());
         }
     }
 
-    public void selesaikanTugas()
-    {
-        try
-        {
-            System.out.printf("Menyelesaikan tugas: %s\n", getTugas());
-            System.out.println("Tugas telah diselesaikan");
-        } 
-        catch (Exception e) 
-        {
-            //System.err.println(e.getCause());
-            System.err.println(e.getMessage());
+    public void selesaikanTugas() {
+        try {
+            logger.log(Level.INFO, "Menyelesaikan tugas: {0}%n", getTugas());
+            logger.info("Tugas telah diselesaikan");
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage());
         }
     }
 
-    public void tambahCatatanPembelajaran()
-    {
-        try 
-        {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            setCatatanPembelajaran(br.readLine());
-            System.out.printf("Tambah Catatan Pembelajaran: %s\n", getCatatanPembelajaran());
-            System.out.println("Catatan telah ditambah");
-        } 
-        catch (IOException e) 
-        {
-            //System.err.println(e.getCause());
-            System.err.println(e.getMessage());
+    public void tambahCatatanPembelajaran() {
+        Scanner scan = InputUtils.getScanner();
+        try {
+            if (scan.hasNextLine()) {
+                setCatatanPembelajaran(scan.nextLine());
+            }
+            logger.log(
+                Level.INFO,
+                "Tambah Catatan Pembelajaran: {0}%n",
+                getCatatanPembelajaran()
+            );
+            logger.info("Catatan telah ditambah");
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage());
         }
     }
 }

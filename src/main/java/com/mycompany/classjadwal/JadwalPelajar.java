@@ -3,17 +3,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.classjadwal;
+
 import com.mycompany.datadiri.*;
 import com.mycompany.utils.InputUtils;
 import java.util.*;
-// import java.util.logging.Level;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
  *
  * @author Akfarizi
  */
+public class JadwalPelajar extends Jadwal implements IfaceJadwal {
 
- public class JadwalPelajar extends Jadwal implements IfaceJadwal {
     private int idPelajar;
     private String namaPelajar;
     private List<String> schedule;
@@ -22,15 +23,15 @@ import java.util.logging.Logger;
         JadwalPelajar.class.getName()
     );
 
-    public JadwalPelajar(int tanggal, String bulan, int tahun, String hari, String kelas, String mataPelajaran, int idPelajar, String namaPelajar) {
-        super(tanggal, bulan, tahun, hari, kelas, mataPelajaran);
+    // int tanggal, String bulan, int tahun, String hari
+    public JadwalPelajar(DateInfo dateInfo, String kelas, String mataPelajaran, int idPelajar, String namaPelajar) {
+        super(dateInfo, kelas, mataPelajaran); // tanggal, bulan, tahun, hari
         this.idPelajar = idPelajar;
         this.namaPelajar = namaPelajar;
-        this.schedule = new ArrayList<String>();
+        this.schedule = new ArrayList<>();
     }
-    
-    public void initializeSchedule()
-    {
+
+    public void initializeSchedule() {
         // Sementara, agak bingung buat yang ini
         schedule.add(4, "Senin");
         schedule.add(0, "Selasa");
@@ -43,7 +44,7 @@ import java.util.logging.Logger;
     public String getPelajarInfo() {
         return "ID Pelajar: " + idPelajar + ", Nama: " + namaPelajar;
     }
-    
+
     @Override
     public void cekKetersediaan() 
     {
@@ -115,20 +116,13 @@ import java.util.logging.Logger;
     }
 
     @Override
-    public void konfirmasiPesanan() 
-    {
-        try 
-        {
-            System.out.println("Pesanan pelajar dikonfirmasi.");
-        } 
-        catch (Exception e) 
-        {
-            System.err.println(e.getCause());
-            System.err.println(e.getMessage());
-        }
-        finally
-        {
-            System.out.println("Proses selesai!");
+    public void konfirmasiPesanan() {
+        try {
+            logger.info("Pesanan pelajar dikonfirmasi.");
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
+        } finally {
+            logger.info("Proses selesai!");
         }
     }
 }
