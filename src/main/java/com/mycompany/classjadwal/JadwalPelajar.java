@@ -4,7 +4,10 @@
  */
 package com.mycompany.classjadwal;
 import com.mycompany.datadiri.*;
+import com.mycompany.utils.InputUtils;
 import java.util.*;
+// import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Akfarizi
@@ -14,6 +17,10 @@ import java.util.*;
     private int idPelajar;
     private String namaPelajar;
     private List<String> schedule;
+
+    private static final Logger logger = Logger.getLogger(
+        JadwalPelajar.class.getName()
+    );
 
     public JadwalPelajar(int tanggal, String bulan, int tahun, String hari, String kelas, String mataPelajaran, int idPelajar, String namaPelajar) {
         super(tanggal, bulan, tahun, hari, kelas, mataPelajaran);
@@ -38,8 +45,9 @@ import java.util.*;
     }
     
     @Override
-    public void cekKetersediaan() {
-        
+    public void cekKetersediaan() 
+    {
+        /* 
             Scanner pelajarS = new Scanner(System.in); 
             System.out.print("Masukan nama: ");
             String namaPelajar = pelajarS.nextLine();
@@ -71,7 +79,39 @@ import java.util.*;
                 System.out.println("Tutor tidak tersedia");
             }
             pelajarSS.close();
-            pelajarS.close();
+            pelajarS.close(); 
+        */
+        Scanner scan = InputUtils.getScanner();
+        BioData data = InputUtils.readBioData(
+            scan,
+            logger,
+            "Masukan email",
+            "Masukan Sekolah",
+            "Masukan pelajaran",
+            "Masukan tutor"
+        );
+
+        UserPelajar up = new UserPelajar(
+            data.nama(),
+            data.dataLahir(),
+            data.alamat(),
+            data.jenisKelamin(),
+            data.umur(),
+            data.extra1(),
+            data.extra2(),
+            data.extra3()
+        );
+        logger.info("Memeriksa ketersediaan pelajar...");
+        logger.info("Pilih tutor: ");
+        up.memilihTutor(scan.nextLine());
+        if (!schedule.isEmpty()) {
+            logger.info("Tutor tidak tersedia");
+            return;
+        }
+        
+        up.menghubungiViaChat();
+        up.melakukanPembayaran(20000, data.nama(), data.extra3());
+        konfirmasiPesanan();
     }
 
     @Override
