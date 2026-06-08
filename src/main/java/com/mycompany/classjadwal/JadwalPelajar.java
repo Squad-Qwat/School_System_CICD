@@ -39,38 +39,38 @@ import java.util.*;
     
     @Override
     public void cekKetersediaan() {
-        
-            Scanner pelajarS = new Scanner(System.in); 
+            Scanner scan = new Scanner(System.in); 
             System.out.print("Masukan nama: ");
-            String namaPelajar = pelajarS.nextLine();
+            String namaPelajar = scan.nextLine();
             System.out.print("Masukan tanggal lahir spasi dengan (-): ");
-            String dataLahirPelajar = pelajarS.nextLine();
+            String dataLahirPelajar = scan.nextLine();
             System.out.print("Tempat tinggal: ");
-            String alamatPelajar = pelajarS.nextLine();
+            String alamatPelajar = scan.nextLine();
             System.out.print("Umur: ");
-            int umurPelajar = pelajarS.nextInt();
-            Scanner pelajarSS = new Scanner(System.in); 
+            int umurPelajar = scan.nextInt();
+            scan.nextLine(); // Mengonsumsi newline sisa dari nextInt()
             System.out.print("Masukan Sekolah: ");
-            String sekolah = pelajarSS.nextLine();
+            String sekolah = scan.nextLine();
             System.out.print("Masukan pelajaran: ");
-            String course = pelajarSS.nextLine();
+            String course = scan.nextLine();
             System.out.print("Masukan tutor: ");
-            String Tutor = pelajarSS.nextLine();
-            UserPelajar up = new UserPelajar(namaPelajar, dataLahirPelajar, alamatPelajar, pelajarSS.nextLine(),umurPelajar, sekolah, course, Tutor);
+            String Tutor = scan.nextLine();
+            System.out.print("Masukan jenis kelamin (L/P): ");
+            String jenisKelamin = scan.nextLine();
+            UserPelajar up = new UserPelajar(namaPelajar, dataLahirPelajar, alamatPelajar, jenisKelamin, umurPelajar, sekolah, course, Tutor);
             System.out.println("Memeriksa ketersediaan pelajar...");
             System.out.print("Pilih tutor: ");
-            up.memilihTutor(pelajarSS.nextLine());
+            up.memilihTutor(scan.nextLine());
             if(schedule.isEmpty())
             {
                 up.menghubungiViaChat();
-                up.melakukanPembayaran(20000, namaPelajar,Tutor);
+                up.melakukanPembayaran(20000, namaPelajar, Tutor);
                 konfirmasiPesanan();
             }
             else
             {
                 System.out.println("Tutor tidak tersedia");
             }
-        
     }
 
     @Override
