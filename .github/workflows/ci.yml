@@ -46,5 +46,5 @@ jobs:
           mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:5.1.0.4751:sonar \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.organization=squad-qwat \
-            -Dsonar.projectKey=School_System_CICD \
+            -Dsonar.projectKey=Squad-Qwat_School_System_CICD \
             -Dmaven.repo.local=${{ runner.temp }}/.m2/sonar
