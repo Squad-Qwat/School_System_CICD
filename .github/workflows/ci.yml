@@ -23,7 +23,7 @@ jobs:
           distribution: "temurin"
           cache: "maven"
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: mvn clean compile
   sonnarcloud:
     needs: build
     runs-on: ubuntu-latest
@@ -41,4 +41,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn verify sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=squad-qwat -Dsonar.projectKey=School_System_CICD
+        run: mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:5.1.0.4751:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=squad-qwat -Dsonar.projectKey=School_System_CICD
