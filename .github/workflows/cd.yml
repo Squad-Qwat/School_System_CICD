@@ -56,17 +56,26 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          provenance: false
-          sbom: false
-          tags: |
-            ${{ steps.version.outputs.image_tag }}:latest
-            ${{ steps.version.outputs.image_tag }}:v${{ steps.version.outputs.version }}-${{ github.run_number }}
+      - name: Build Docker image
+        run: |
+          IMAGE="${{ steps.version.outputs.image_tag }}"
+          VERSION_TAG="${IMAGE}:v${{ steps.version.outputs.version }}-${{ github.run_number }}"
+          LATEST_TAG="${IMAGE}:latest"
 
+          docker build \
+            --no-cache \
+            -t "${LATEST_TAG}" \
+            -t "${VERSION_TAG}" \
+            .
+
+      - name: Push Docker image
+        run: |
+          IMAGE="${{ steps.version.outputs.image_tag }}"
+          VERSION_TAG="${IMAGE}:v${{ steps.version.outputs.version }}-${{ github.run_number }}"
+          LATEST_TAG="${IMAGE}:latest"
+
+          docker push "${LATEST_TAG}"
+          docker push "${VERSION_TAG}"
       # softprops/action-gh-release@v2 — tidak ada warning set-output
       - name: Create GitHub Release & attach JAR
         uses: softprops/action-gh-release@v2
