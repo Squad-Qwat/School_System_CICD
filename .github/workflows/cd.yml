@@ -61,6 +61,8 @@ jobs:
         with:
           context: .
           push: true
+          provenance: false   # ← tambahkan ini
+                    sbom: false         # ← dan ini
           tags: |
             ${{ steps.version.outputs.image_tag }}:latest
             ${{ steps.version.outputs.image_tag }}:v${{ steps.version.outputs.version }}-${{ github.run_number }}
