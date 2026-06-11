@@ -33,6 +33,18 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>${exec.mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
             </plugin>
@@ -55,16 +67,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-jar-plugin</artifactId>
-               <version>3.3.0</version>
-               <configuration>
-                   <archive>
-                       <manifest>
-                           <mainClass>${exec.mainClass}</mainClass>
-                       </manifest>
-                   </archive>
-               </configuration>
         </plugins>
     </build>
 </project>
