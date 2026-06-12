@@ -5,14 +5,20 @@
 package com.mycompany.classjadwal;
 
 import com.mycompany.datadiri.*;
+import com.mycompany.utils.InputUtils;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Akfarizi
  */
-
 public class JadwalTutor extends Jadwal implements IfaceJadwal {
+
+    private static final Logger logger = Logger.getLogger(
+        JadwalTutor.class.getName()
+    );
 
     private int idTutor;
     private String namaTutor;
@@ -20,21 +26,18 @@ public class JadwalTutor extends Jadwal implements IfaceJadwal {
     private List<String> schedule;
 
     public JadwalTutor(
-        int tanggal,
-        String bulan,
-        int tahun,
-        String hari,
+        DateInfo dateInfo,
         String kelas,
         String mataPelajaran,
         int idTutor,
         String namaTutor,
         float rating
     ) {
-        super(tanggal, bulan, tahun, hari, kelas, mataPelajaran);
+        super(dateInfo, kelas, mataPelajaran);
         this.idTutor = idTutor;
         this.namaTutor = namaTutor;
         this.rating = rating;
-        this.schedule = new ArrayList<String>();
+        this.schedule = new ArrayList<>();
     }
 
     public int getIdTutor() {
@@ -66,49 +69,38 @@ public class JadwalTutor extends Jadwal implements IfaceJadwal {
 
     @Override
     public void cekKetersediaan() {
-        Scanner scan = new Scanner(System.in);
+        Scanner scan = InputUtils.getScanner();
         try {
-            // Format: nama, lahir, alamat, golongan darah, jenis kelamin, umur, tempat kerja, pengalaman, kemampuan
-            System.out.print("Masukan nama: ");
-            String NamaTutor = scan.nextLine();
-            System.out.print("Masukan tanggal lahir spasi dengan (-): ");
-            String dataLahirTutor = scan.nextLine();
-            System.out.print("Tempat tinggal: ");
-            String alamatTutor = scan.nextLine();
-            System.out.print("Umur: ");
-            int umurTutor = scan.nextInt();
-            scan.nextLine(); // consume newline
-            System.out.print("Tempat berkerja saat ini: ");
-            String Tempatbekerja = scan.nextLine();
-            System.out.print("Pengalaman: ");
-            String Pengalaman = scan.nextLine();
-            System.out.print("Kemampuan: ");
-            String Kemampuan = scan.nextLine();
-            UserTutor ut = new UserTutor(
-                NamaTutor,
-                dataLahirTutor,
-                alamatTutor,
-                scan.nextLine(),
-                umurTutor,
-                Tempatbekerja,
-                Pengalaman,
-                Kemampuan
+            BioData data = InputUtils.readBioData(
+                scan,
+                logger,
+                null,
+                "Tempat berkerja saat ini",
+                "Pengalaman",
+                "Kemampuan"
             );
-            System.out.println("Memeriksa ketersediaan tutor...");
+
+            UserTutor ut = new UserTutor(
+                data.nama(),
+                data.dataLahir(),
+                data.alamat(),
+                data.jenisKelamin(),
+                data.umur(),
+                data.extra1(),
+                data.extra2(),
+                data.extra3()
+            );
+            logger.info("Memeriksa ketersediaan tutor...");
             if (schedule.isEmpty()) {
-                ut.menerimaPesanan(NamaTutor);
+                ut.menerimaPesanan(data.nama());
                 konfirmasiPesanan();
                 ut.menjalankanTutoring();
             } else {
-                ut.menolakPesanan(NamaTutor);
+                ut.menolakPesanan(data.nama());
             }
         } catch (InputMismatchException e) {
-            //System.err.println(e.fillInStackTrace());
-            //System.err.println(Arrays.toString(e.getStackTrace()));
-            System.err.println(e.getCause());
-            System.err.println(e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage());
         } finally {
-            scan.close();
             konfirmasiPesanan();
         }
     }
@@ -116,12 +108,11 @@ public class JadwalTutor extends Jadwal implements IfaceJadwal {
     @Override
     public void konfirmasiPesanan() {
         try {
-            System.out.println("Pesanan diterima.");
+            logger.info("Pesanan diterima.");
         } catch (Exception e) {
-            System.err.println(e.getCause());
-            System.err.println(e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage());
         } finally {
-            System.out.println("Proses selesai!");
+            logger.info("Proses selesai!");
         }
     }
 }

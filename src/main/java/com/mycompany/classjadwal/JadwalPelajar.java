@@ -5,33 +5,36 @@
 package com.mycompany.classjadwal;
 
 import com.mycompany.datadiri.*;
+import com.mycompany.utils.InputUtils;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Akfarizi
  */
-
 public class JadwalPelajar extends Jadwal implements IfaceJadwal {
+
+    private static final Logger logger = Logger.getLogger(
+        JadwalPelajar.class.getName()
+    );
 
     private int idPelajar;
     private String namaPelajar;
     private List<String> schedule;
 
     public JadwalPelajar(
-        int tanggal,
-        String bulan,
-        int tahun,
-        String hari,
+        DateInfo dateInfo,
         String kelas,
         String mataPelajaran,
         int idPelajar,
         String namaPelajar
     ) {
-        super(tanggal, bulan, tahun, hari, kelas, mataPelajaran);
+        super(dateInfo, kelas, mataPelajaran);
         this.idPelajar = idPelajar;
         this.namaPelajar = namaPelajar;
-        this.schedule = new ArrayList<String>();
+        this.schedule = new ArrayList<>();
     }
 
     public void initializeSchedule() {
@@ -50,55 +53,46 @@ public class JadwalPelajar extends Jadwal implements IfaceJadwal {
 
     @Override
     public void cekKetersediaan() {
-        Scanner scan = new Scanner(System.in);
-        System.out.print("Masukan nama: ");
-        String namaPelajar = scan.nextLine();
-        System.out.print("Masukan tanggal lahir spasi dengan (-): ");
-        String dataLahirPelajar = scan.nextLine();
-        System.out.print("Tempat tinggal: ");
-        String alamatPelajar = scan.nextLine();
-        System.out.print("Umur: ");
-        int umurPelajar = scan.nextInt();
-        scan.nextLine(); // consume newline
-        System.out.print("Masukan Sekolah: ");
-        String sekolah = scan.nextLine();
-        System.out.print("Masukan pelajaran: ");
-        String course = scan.nextLine();
-        System.out.print("Masukan tutor: ");
-        String Tutor = scan.nextLine();
-        System.out.print("Masukan email: ");
-        String email = scan.nextLine();
-        UserPelajar up = new UserPelajar(
-            namaPelajar,
-            dataLahirPelajar,
-            alamatPelajar,
-            email,
-            umurPelajar,
-            sekolah,
-            course,
-            Tutor
+        Scanner scan = InputUtils.getScanner();
+        BioData data = InputUtils.readBioData(
+            scan,
+            logger,
+            "Masukan email",
+            "Masukan Sekolah",
+            "Masukan pelajaran",
+            "Masukan tutor"
         );
-        System.out.println("Memeriksa ketersediaan pelajar...");
-        System.out.print("Pilih tutor: ");
+
+        UserPelajar up = new UserPelajar(
+            data.nama(),
+            data.dataLahir(),
+            data.alamat(),
+            data.jenisKelamin(),
+            data.umur(),
+            data.extra1(),
+            data.extra2(),
+            data.extra3()
+        );
+        logger.info("Memeriksa ketersediaan pelajar...");
+        logger.info("Pilih tutor: ");
         up.memilihTutor(scan.nextLine());
         if (schedule.isEmpty()) {
             up.menghubungiViaChat();
-            up.melakukanPembayaran(20000, namaPelajar, Tutor);
+            up.melakukanPembayaran(20000, data.nama(), data.extra3());
             konfirmasiPesanan();
         } else {
-            System.out.println("Tutor tidak tersedia");
+            logger.info("Tutor tidak tersedia");
         }
     }
 
     @Override
     public void konfirmasiPesanan() {
         try {
-            System.out.println("Pesanan pelajar dikonfirmasi.");
+            logger.info("Pesanan pelajar dikonfirmasi.");
         } catch (Exception e) {
-            System.err.println(e.getCause());
-            System.err.println(e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage(), e);
         } finally {
-            System.out.println("Proses selesai!");
+            logger.info("Proses selesai!");
         }
     }
 }

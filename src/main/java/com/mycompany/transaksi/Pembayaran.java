@@ -4,16 +4,30 @@
  */
 package com.mycompany.transaksi;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Nadya
  */
-public class Pembayaran extends Transaksi{
+public class Pembayaran extends Transaksi {
+
+    private static final Logger logger = Logger.getLogger(
+        Pembayaran.class.getName()
+    );
+
     private String pembayar;
     private String penerima;
     private String buktiBayar;
 
-    public Pembayaran(int uang, String status, String pembayar, String penerima, String buktiBayar) {
+    public Pembayaran(
+        int uang,
+        String status,
+        String pembayar,
+        String penerima,
+        String buktiBayar
+    ) {
         super(uang, status);
         this.pembayar = pembayar;
         this.penerima = penerima;
@@ -21,47 +35,38 @@ public class Pembayaran extends Transaksi{
     }
 
     public void memesanDosen() {
-        System.out.println("Tutor berhasil dipesan.");
+        logger.info("Tutor berhasil dipesan.");
     }
 
     public void melakukanPembayaran() {
-        try 
-        {
-            System.out.println("Pembayaran sedang diproses...");
-            System.out.println("Pembayaran dilakukan oleh " + pembayar);
+        try {
+            logger.info("Pembayaran sedang diproses...");
+            logger.log(Level.INFO, "Pembayaran dilakukan oleh {0}", pembayar);
             pembayaranDiterima();
-        } 
-        catch (Exception e) 
-        {
-            System.err.println(e.getMessage());
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
     public void pembayaranDiterima() {
-        try
-        {
-        this.status = "sukses";
-        System.out.println("Pembayaran diterima oleh " + penerima);
-        }
-        catch(Exception e)
-        {
-            System.err.println(e.getMessage());
+        try {
+            this.status = "sukses";
+            logger.log(Level.INFO, "Pembayaran diterima oleh {0}", penerima);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
     public void mendapatBuktiBayar() {
-        System.out.println("Bukti pembayaran: " + buktiBayar);
+        logger.log(Level.INFO, "Bukti pembayaran: {0}", buktiBayar);
     }
 
     public void pembayaranDitolak() {
-        try 
-        {
+        try {
             this.status = "gagal";
-            System.out.println("Pembayaran ditolak.");
-        } 
-        catch (Exception e) 
-        {
-            System.err.println(e.getMessage());
+            logger.info("Pembayaran ditolak.");
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 }

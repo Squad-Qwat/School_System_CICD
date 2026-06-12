@@ -39,14 +39,16 @@ class UserPelajarTest {
     void testMengisiBioData() {
         UserPelajar up = new UserPelajar("Guest", "", "", "", 0, "", "", "");
         up.mengisiBioData(
-            "Budi",
-            "02-02-2006",
-            "Bandung",
-            "L",
-            14,
-            "SMP 1",
-            "English",
-            "TutorD"
+            new BioData(
+                "Budi",
+                "02-02-2006",
+                "Bandung",
+                "L",
+                14,
+                "SMP 1",
+                "English",
+                "TutorD"
+            )
         );
 
         assertEquals("Budi", up.getNama());

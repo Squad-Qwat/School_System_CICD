@@ -3,19 +3,26 @@
  */
 
 package com.mycompany.datadiri;
+
 /**
  *
  * @author hp
  */
-public abstract class Datadiri 
-{
+public abstract class Datadiri {
+
     private String nama;
     private String dataLahir;
     private String alamat;
     private String jenisKelamin;
     private int umur;
 
-    public Datadiri(String nama, String dataLahir, String alamat, String jenisKelamin, int umur) {
+    protected Datadiri(
+        String nama,
+        String dataLahir,
+        String alamat,
+        String jenisKelamin,
+        int umur
+    ) {
         this.nama = nama;
         this.dataLahir = dataLahir;
         this.alamat = alamat;
@@ -62,6 +69,6 @@ public abstract class Datadiri
     public void setUmur(int umur) {
         this.umur = umur;
     }
-    
-    public abstract void mengisiBioData(String nama, String dataLahir, String alamat, String jenisKelamin, int umur, String sekolah, String course, String tutor);
+
+    public abstract void mengisiBioData(BioData data);
 }
