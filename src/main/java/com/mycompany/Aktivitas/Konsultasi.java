@@ -17,7 +17,7 @@ public class Konsultasi extends Aktivitas {
     private static final Logger logger = Logger.getLogger(
         Konsultasi.class.getName()
     );
-    private static final String ERROR_MESSAGE = "Error terjadi: ";
+    private static final String ERROR_MSG = "Error terjadi: {0}";
     private String nama;
     private String tempat;
 
@@ -49,7 +49,7 @@ public class Konsultasi extends Aktivitas {
         this.tempat = tempat;
     }
 
-    public void MelakukanPenjadwalan() {
+    public void melakukanPenjadwalan() {
         try {
             BufferedReader br = new BufferedReader(
                 new InputStreamReader(System.in)
@@ -64,14 +64,11 @@ public class Konsultasi extends Aktivitas {
                 new Object[] { getJadwal(), getDurasi() }
             );
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "{0}{1}", new Object[] {
-                ERROR_MESSAGE,
-                e.getMessage(),
-            });
+            logger.log(Level.SEVERE, ERROR_MSG, e.getMessage());
         }
     }
 
-    public void MengaturTempat() {
+    public void mengaturTempat() {
         try {
             BufferedReader br = new BufferedReader(
                 new InputStreamReader(System.in)
@@ -80,14 +77,11 @@ public class Konsultasi extends Aktivitas {
             setTempat(lokasi);
             logger.log(Level.INFO, "Tempat konsultasi: {0}%n", getTempat());
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "{0}{1}", new Object[] {
-                ERROR_MESSAGE,
-                e.getMessage(),
-            });
+            logger.log(Level.SEVERE, ERROR_MSG, e.getMessage());
         }
     }
 
-    public void MenentukanTutor() {
+    public void menentukanTutor() {
         try {
             BufferedReader br = new BufferedReader(
                 new InputStreamReader(System.in)
@@ -100,14 +94,11 @@ public class Konsultasi extends Aktivitas {
                 getNama()
             );
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "{0}{1}", new Object[] {
-                ERROR_MESSAGE,
-                e.getMessage(),
-            });
+            logger.log(Level.SEVERE, ERROR_MSG, e.getMessage());
         }
     }
 
-    public void MenentukanTopik() {
+    public void menentukanTopik() {
         try {
             BufferedReader br = new BufferedReader(
                 new InputStreamReader(System.in)
@@ -115,10 +106,7 @@ public class Konsultasi extends Aktivitas {
             String topik = br.readLine();
             logger.log(Level.INFO, "membahas tentang : {0}%n", topik);
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "{0}{1}", new Object[] {
-                ERROR_MESSAGE,
-                e.getMessage(),
-            });
+            logger.log(Level.SEVERE, ERROR_MSG, e.getMessage());
         }
     }
 }

@@ -20,6 +20,8 @@ public class Diskusi extends Aktivitas {
         Diskusi.class.getName()
     );
 
+    private static final String ERROR_MSG = "Error terjadi: {0}";
+
     private String ruang;
     private int waktuDiskusi;
 
@@ -43,10 +45,10 @@ public class Diskusi extends Aktivitas {
         this.waktuDiskusi = waktuDiskusi;
     }
 
-    public void MulaiDiskusi() {
+    public void mulaiDiskusi() {
         setAktivitas("Mulai");
         // Hanya dijalankan ketika aktivitas dimulai dan ada pelajarnya
-        if (MulaiAktivitas()) {
+        if (mulaiAktivitas()) {
             Scanner scan = InputUtils.getScanner();
             try {
                 setJadwal(scan.nextLine());
@@ -61,17 +63,17 @@ public class Diskusi extends Aktivitas {
                     new Object[] { jadwal, ruang, waktuDiskusi }
                 );
             } catch (Exception e) {
-                logger.log(Level.SEVERE, "Error terjadi: {0}", e.getMessage());
+                logger.log(Level.SEVERE, ERROR_MSG, e.getMessage());
             }
         } else {
             logger.info("Diskusi tidak dimulai");
         }
     }
 
-    public void TutupDiskusi() {
+    public void tutupDiskusi() {
         setAktivitas("Selesai");
         // Hanya dijalankan ketika aktivitas dimulai dan ada pelajarnya
-        if (SelesaiAktivitas()) {
+        if (selesaiAktivitas()) {
             Scanner scan = InputUtils.getScanner();
             try {
                 setJadwal(scan.nextLine());
@@ -85,14 +87,14 @@ public class Diskusi extends Aktivitas {
                     new Object[] { jadwal, ruang, waktuDiskusi, durasi }
                 );
             } catch (Exception e) {
-                logger.log(Level.SEVERE, "Error terjadi: {0}", e.getMessage());
+                logger.log(Level.SEVERE, ERROR_MSG, e.getMessage());
             }
         } else {
             logger.info("Diskusi belum selesai");
         }
     }
 
-    public void MenjawabPertanyaan() {
+    public void menjawabPertanyaan() {
         Scanner scan = InputUtils.getScanner();
         try {
             UserPelajar up = new UserPelajar(
@@ -112,7 +114,7 @@ public class Diskusi extends Aktivitas {
                 new Object[] { waktuDiskusi, up.getNama() }
             );
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error terjadi: {0}", e.getMessage());
+            logger.log(Level.SEVERE, ERROR_MSG, e.getMessage());
         }
     }
 }

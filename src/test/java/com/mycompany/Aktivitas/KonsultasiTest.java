@@ -1,13 +1,15 @@
 package com.mycompany.Aktivitas;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class KonsultasiTest {
+
     private InputStream sysInBackup;
 
     @BeforeEach
@@ -28,21 +30,21 @@ class KonsultasiTest {
 
         String inputJadwal = "11-10-2024\n5\n";
         System.setIn(new ByteArrayInputStream(inputJadwal.getBytes()));
-        k.MelakukanPenjadwalan();
+        k.melakukanPenjadwalan();
         assertEquals("11-10-2024", k.getJadwal());
 
         String inputTempat = "R2\n";
         System.setIn(new ByteArrayInputStream(inputTempat.getBytes()));
-        k.MengaturTempat();
+        k.mengaturTempat();
         assertEquals("R2", k.getTempat());
 
         String inputTutor = "TutorB\n";
         System.setIn(new ByteArrayInputStream(inputTutor.getBytes()));
-        k.MenentukanTutor();
+        k.menentukanTutor();
         assertEquals("TutorB", k.getNama());
 
         String inputTopik = "Math\n";
         System.setIn(new ByteArrayInputStream(inputTopik.getBytes()));
-        k.MenentukanTopik();
+        k.menentukanTopik();
     }
 }

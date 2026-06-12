@@ -43,19 +43,19 @@ public class Aktivitas {
         return durasi;
     }
 
-    public boolean MulaiAktivitas() {
+    public boolean mulaiAktivitas() {
         return status.equals(STATUS_MULAI);
     }
 
     public void setAktivitas(String action) {
-        // Jaga-jaga method MulaiDiskusi() dipanggil lebih dari sekali
+        // Jaga-jaga method mulaiDiskusi() dipanggil lebih dari sekali
         if (STATUS_MULAI.equals(action) && status.equals("diam")) {
             status = STATUS_MULAI;
         } else {
             logger.info("Aktivitas telah dimulai, silahkan coba lagi!");
         }
 
-        // Jaga-jaga method TutupDiskusi() dipanggil lebih dari sekali
+        // Jaga-jaga method tutupDiskusi() dipanggil lebih dari sekali
         if ("Tutup".equals(action) && status.equals(STATUS_MULAI)) {
             status = "diam";
         } else {
@@ -63,7 +63,7 @@ public class Aktivitas {
         }
     }
 
-    public boolean SelesaiAktivitas() {
+    public boolean selesaiAktivitas() {
         return status.equals("Selesai");
     }
 

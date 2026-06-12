@@ -2,9 +2,14 @@ package com.mycompany.utils;
 
 import com.mycompany.datadiri.BioData;
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class InputUtils {
+
+    private InputUtils() {
+        // Private constructor to hide the implicit public one
+    }
 
     public static Scanner getScanner() {
         return new Scanner(System.in);
@@ -33,14 +38,14 @@ public class InputUtils {
 
         String gender = "L/P";
         if (genderLabel != null && !genderLabel.isEmpty()) {
-            logger.info(genderLabel + ": ");
+            logger.log(Level.INFO, "{0}: ", genderLabel);
             gender = scan.nextLine();
         }
 
         String[] extras = new String[3];
         for (int i = 0; i < 3; i++) {
             if (i < extraPrompts.length) {
-                logger.info(extraPrompts[i] + ": ");
+                logger.log(Level.INFO, "{0}: ", extraPrompts[i]);
                 extras[i] = scan.nextLine();
             } else {
                 extras[i] = "";

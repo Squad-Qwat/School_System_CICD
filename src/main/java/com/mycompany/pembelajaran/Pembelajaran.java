@@ -63,7 +63,7 @@ public class Pembelajaran {
                 jenjangPendidikan
             );
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error terjadi: " + e.getMessage(), e);
+            logger.log(Level.SEVERE, "Error terjadi: {0}", e.getMessage());
         }
     }
 }

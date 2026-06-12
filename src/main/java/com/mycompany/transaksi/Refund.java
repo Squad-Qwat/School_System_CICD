@@ -41,7 +41,9 @@ public class Refund extends Transaksi {
     public void dapatUangKembali() {
         try {
             if (prosesTransaksi()) {
-                logger.info(lihatStatus());
+                if (logger.isLoggable(Level.INFO)) {
+                    logger.info(lihatStatus());
+                }
                 logger.log(
                     Level.INFO,
                     "Uang sejumlah {0} telah dikembalikan kepada {1}",

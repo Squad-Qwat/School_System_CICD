@@ -345,12 +345,16 @@ public class ProjectMain {
                             "Forum B",
                             120
                         );
-                        diskusi.MulaiDiskusi();
-                        logger.info(diskusi.cekStatus());
+                        diskusi.mulaiDiskusi();
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(diskusi.cekStatus());
+                        }
                         logger.log(Level.INFO, "{0}", diskusi.getDurasi());
-                        diskusi.TutupDiskusi();
-                        diskusi.MenjawabPertanyaan();
-                        logger.info(diskusi.cekStatus());
+                        diskusi.tutupDiskusi();
+                        diskusi.menjawabPertanyaan();
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(diskusi.cekStatus());
+                        }
                     } catch (Exception e) {
                         logger.log(Level.SEVERE, e.getMessage());
                     }
@@ -365,18 +369,24 @@ public class ProjectMain {
                             "Ruangan B"
                         );
                         konsul.setAktivitas("Mulai");
-                        logger.info(konsul.getJadwal());
-                        logger.info(konsul.cekStatus());
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(konsul.getJadwal());
+                        }
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(konsul.cekStatus());
+                        }
                         logger.info("Pilih tutor: ");
-                        konsul.MenentukanTutor();
+                        konsul.menentukanTutor();
                         logger.info("Tentukan jadwal konsultasi: ");
-                        konsul.MelakukanPenjadwalan();
+                        konsul.melakukanPenjadwalan();
                         logger.info("Pilih topik konsultasi: ");
-                        konsul.MenentukanTopik();
+                        konsul.menentukanTopik();
                         logger.info("Pilih tempat konsultasi: ");
-                        konsul.MengaturTempat();
+                        konsul.mengaturTempat();
                         konsul.setAktivitas("Selesai");
-                        logger.info(konsul.cekStatus());
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(konsul.cekStatus());
+                        }
                     } catch (Exception e) {
                         logger.log(Level.SEVERE, e.getMessage());
                     }
@@ -387,31 +397,47 @@ public class ProjectMain {
                             "01-04-2025",
                             180,
                             "diam",
-                            "Murid1",
-                            "Tutor1",
-                            "Tugas1",
-                            "Math",
-                            "Notes"
+                            new SesiTutoring.TutoringDetails(
+                                "Murid1",
+                                "Tutor1",
+                                "Tugas1",
+                                "Math",
+                                "Notes"
+                            )
                         );
                         sesiTutoring.setAktivitas("Mulai");
-                        logger.info(sesiTutoring.getJadwal());
-                        logger.info(sesiTutoring.cekStatus());
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(sesiTutoring.getJadwal());
+                        }
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(sesiTutoring.cekStatus());
+                        }
                         sesiTutoring.setNamaCourse("Biologi");
-                        logger.info(sesiTutoring.getNamaCourse());
-                        sesiTutoring.setIDMurid("Budi");
-                        logger.info(sesiTutoring.getIDMurid());
-                        sesiTutoring.setIDTutor("Anto");
-                        logger.info(sesiTutoring.getIDTutor());
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(sesiTutoring.getNamaCourse());
+                        }
+                        sesiTutoring.setIdMurid("Budi");
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(sesiTutoring.getIdMurid());
+                        }
+                        sesiTutoring.setIdTutor("Anto");
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(sesiTutoring.getIdTutor());
+                        }
                         logger.info("Masukkan tugas sesi tutoring: ");
                         sesiTutoring.setTugas(scan.nextLine());
-                        logger.info(sesiTutoring.getTugas());
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(sesiTutoring.getTugas());
+                        }
                         sesiTutoring.selesaikanTugas();
                         logger.info("Buat catatan: ");
                         sesiTutoring.tambahCatatanPembelajaran();
                         sesiTutoring.setAktivitas("Selesai");
                         sesiTutoring.postTugas();
                         sesiTutoring.postCatatanPembelajaran();
-                        logger.info(sesiTutoring.cekStatus());
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(sesiTutoring.cekStatus());
+                        }
                     } catch (Exception e) {
                         logger.log(Level.SEVERE, e.getMessage());
                     }
