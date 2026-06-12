@@ -16,13 +16,13 @@ class RefundTest {
 
         r.membuatSuratPengajuanRefund();
         // dapatUangKembali() calls prosesTransaksi()
-        assertDoesNotThrow(() -> r.dapatUangKembali());
+        assertDoesNotThrow(r::dapatUangKembali);
     }
 
     @Test
     void testRefundGagal() {
         Refund r = new Refund(50000, "gagal", "Salah bayar", "Andi");
         assertFalse(r.prosesTransaksi());
-        assertDoesNotThrow(() -> r.dapatUangKembali());
+        assertDoesNotThrow(r::dapatUangKembali);
     }
 }

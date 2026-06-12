@@ -51,6 +51,6 @@ class PembayaranTest {
             "Bukti1"
         );
         // Just verify it doesn't crash
-        assertDoesNotThrow(() -> p.mendapatBuktiBayar());
+        assertDoesNotThrow(p::mendapatBuktiBayar);
     }
 }

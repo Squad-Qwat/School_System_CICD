@@ -25,10 +25,7 @@ class JadwalPelajarTest {
     @Test
     void testJadwalPelajarInfo() {
         JadwalPelajar jp = new JadwalPelajar(
-            10,
-            "Oktober",
-            2024,
-            "Senin",
+            new DateInfo(10, "Oktober", 2024, "Senin"),
             "10A",
             "Math",
             1,
@@ -40,10 +37,7 @@ class JadwalPelajarTest {
     @Test
     void testCekKetersediaan() {
         JadwalPelajar jp = new JadwalPelajar(
-            10,
-            "Oktober",
-            2024,
-            "Senin",
+            new DateInfo(10, "Oktober", 2024, "Senin"),
             "10A",
             "Math",
             1,
@@ -65,23 +59,18 @@ class JadwalPelajarTest {
 
         System.setIn(new ByteArrayInputStream(input.toString().getBytes()));
 
-        assertDoesNotThrow(() -> jp.cekKetersediaan());
+        assertDoesNotThrow(jp::cekKetersediaan);
     }
 
     @Test
     void testInitializeScheduleFails() {
         JadwalPelajar jp = new JadwalPelajar(
-            10,
-            "Oktober",
-            2024,
-            "Senin",
+            new DateInfo(10, "Oktober", 2024, "Senin"),
             "10A",
             "Math",
             1,
             "Budi"
         );
-        assertThrows(IndexOutOfBoundsException.class, () ->
-            jp.initializeSchedule()
-        );
+        assertThrows(IndexOutOfBoundsException.class, jp::initializeSchedule);
     }
 }

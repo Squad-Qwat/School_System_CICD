@@ -35,14 +35,16 @@ class UserTutorTest {
             "Java"
         );
         ut.mengisiBioData(
-            "TutorB",
-            "11-11-1991",
-            "Bandung",
-            "L",
-            31,
-            "ITB",
-            "6 tahun",
-            "Python"
+            new BioData(
+                "TutorB",
+                "11-11-1991",
+                "Bandung",
+                "L",
+                31,
+                "ITB",
+                "6 tahun",
+                "Python"
+            )
         );
         assertEquals("TutorB", ut.getNama());
 
