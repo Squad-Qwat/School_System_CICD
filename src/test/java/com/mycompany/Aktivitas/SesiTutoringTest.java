@@ -1,13 +1,15 @@
 package com.mycompany.Aktivitas;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class SesiTutoringTest {
+
     private InputStream sysInBackup;
 
     @BeforeEach
@@ -22,16 +24,23 @@ class SesiTutoringTest {
 
     @Test
     void testSesiTutoring() {
-        SesiTutoring s = new SesiTutoring("10-10-2024", 60, "diam", "M1", "T1", "Tugas1", "Course1", "Catatan1");
+        SesiTutoring.TutoringDetails details = new SesiTutoring.TutoringDetails(
+            "M1",
+            "T1",
+            "Tugas1",
+            "Course1",
+            "Catatan1"
+        );
+        SesiTutoring s = new SesiTutoring("10-10-2024", 60, "diam", details);
 
-        assertEquals("M1", s.getIDMurid());
-        assertEquals("T1", s.getIDTutor());
+        assertEquals("M1", s.getIdMurid());
+        assertEquals("T1", s.getIdTutor());
         assertEquals("Tugas1", s.getTugas());
         assertEquals("Course1", s.getNamaCourse());
         assertEquals("Catatan1", s.getCatatanPembelajaran());
 
-        s.setIDMurid("M2");
-        s.setIDTutor("T2");
+        s.setIdMurid("M2");
+        s.setIdTutor("T2");
         s.setTugas("Tugas2");
         s.setNamaCourse("Course2");
         s.setCatatanPembelajaran("Catatan2");

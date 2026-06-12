@@ -18,8 +18,17 @@ public class SesiTutoring extends Aktivitas {
     private static final Logger logger = Logger.getLogger(
         SesiTutoring.class.getName()
     );
-    private String IDMurid;
-    private String IDTutor;
+
+    public record TutoringDetails(
+        String idMurid,
+        String idTutor,
+        String tugas,
+        String namaCourse,
+        String catatanPembelajaran
+    ) {}
+
+    private String idMurid;
+    private String idTutor;
     private String tugas;
     private String namaCourse;
     private String catatanPembelajaran;
@@ -28,34 +37,30 @@ public class SesiTutoring extends Aktivitas {
         String jadwal,
         int durasi,
         String status,
-        String IDMurid,
-        String IDTutor,
-        String tugas,
-        String namaCourse,
-        String catatanPembelajaran
+        TutoringDetails details
     ) {
         super(jadwal, durasi, status);
-        this.IDMurid = IDMurid;
-        this.IDTutor = IDTutor;
-        this.tugas = tugas;
-        this.namaCourse = namaCourse;
-        this.catatanPembelajaran = catatanPembelajaran;
+        this.idMurid = details.idMurid();
+        this.idTutor = details.idTutor();
+        this.tugas = details.tugas();
+        this.namaCourse = details.namaCourse();
+        this.catatanPembelajaran = details.catatanPembelajaran();
     }
 
-    public String getIDMurid() {
-        return IDMurid;
+    public String getIdMurid() {
+        return idMurid;
     }
 
-    public void setIDMurid(String IDMurid) {
-        this.IDMurid = IDMurid;
+    public void setIdMurid(String idMurid) {
+        this.idMurid = idMurid;
     }
 
-    public String getIDTutor() {
-        return IDTutor;
+    public String getIdTutor() {
+        return idTutor;
     }
 
-    public void setIDTutor(String IDTutor) {
-        this.IDTutor = IDTutor;
+    public void setIdTutor(String idTutor) {
+        this.idTutor = idTutor;
     }
 
     public String getTugas() {
