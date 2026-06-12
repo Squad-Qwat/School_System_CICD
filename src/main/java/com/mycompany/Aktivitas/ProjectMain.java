@@ -92,43 +92,22 @@ public class ProjectMain {
                             "Course",
                             "tutor"
                         );
-                        logger.info("Masukan nama: ");
-                        String namaPelajar = scan.nextLine();
-                        logger.info("Masukan tanggal lahir spasi dengan (-): ");
-                        String dataLahirPelajar = scan.nextLine();
-                        logger.info("Tempat tinggal: ");
-                        String alamatPelajar = scan.nextLine();
-                        logger.info("Umur: ");
-                        int umurPelajar = -1;
-                        if (scan.hasNextInt()) {
-                            umurPelajar = scan.nextInt();
-                            scan.nextLine();
-                        }
-                        logger.info("Masukan Sekolah: ");
-                        String sekolah = scan.nextLine();
-                        logger.info("Masukan pelajaran: ");
-                        String course = scan.nextLine();
-                        logger.info("Masukan tutor: ");
-                        String tutor = scan.nextLine();
-
-                        userPelajar.mengisiBioData(
-                            new BioData(
-                                namaPelajar,
-                                dataLahirPelajar,
-                                alamatPelajar,
-                                "L/P",
-                                umurPelajar,
-                                sekolah,
-                                course,
-                                tutor
-                            )
+                        BioData dataPelajar = InputUtils.readBioData(
+                            scan,
+                            logger,
+                            null,
+                            "Masukan Sekolah",
+                            "Masukan pelajaran",
+                            "Masukan tutor"
                         );
-                        userPelajar.memilihTutor(tutor);
+
+                        userPelajar.mengisiBioData(dataPelajar);
+                        userPelajar.memilihTutor(dataPelajar.extra3());
                         userPelajar.menghubungiViaChat();
                         userPelajar.melakukanPembayaran(
                             1000,
-                            namaPelajar,
-                            tutor
+                            dataPelajar.nama(),
+                            dataPelajar.extra3()
                         );
                     } catch (InputMismatchException e) {
                         logger.log(Level.SEVERE, e.getMessage());
@@ -147,36 +126,15 @@ public class ProjectMain {
                             "kemampuan"
                         );
                         // Untuk menginput biodata yang ada
-                        logger.info("Masukan nama: ");
-                        String namaTutor = scan.nextLine();
-                        logger.info("Masukan tanggal lahir spasi dengan (-): ");
-                        String dataLahirTutor = scan.nextLine();
-                        logger.info("Tempat tinggal: ");
-                        String alamatTutor = scan.nextLine();
-                        logger.info("Umur: ");
-                        int umurTutor = -1;
-                        if (scan.hasNextInt()) {
-                            umurTutor = scan.nextInt();
-                            scan.nextLine();
-                        }
-                        logger.info("Tempat berkerja saat ini: ");
-                        String tempatBekerja = scan.nextLine();
-                        logger.info("Pengalaman: ");
-                        String pengalaman = scan.nextLine();
-                        logger.info("Kemampuan: ");
-                        String kemampuan = scan.nextLine();
-                        userTutor.mengisiBioData(
-                            new BioData(
-                                namaTutor,
-                                dataLahirTutor,
-                                alamatTutor,
-                                "L/P",
-                                umurTutor,
-                                tempatBekerja,
-                                pengalaman,
-                                kemampuan
-                            )
+                        BioData dataTutor = InputUtils.readBioData(
+                            scan,
+                            logger,
+                            null,
+                            "Tempat berkerja saat ini",
+                            "Pengalaman",
+                            "Kemampuan"
                         );
+                        userTutor.mengisiBioData(dataTutor);
 
                         logger.info("Apakah menerima pesanan? (ya/tidak): ");
                         String approval = scan.nextLine();

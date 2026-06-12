@@ -71,42 +71,32 @@ public class JadwalTutor extends Jadwal implements IfaceJadwal {
     public void cekKetersediaan() {
         Scanner scan = InputUtils.getScanner();
         try {
-            // Format: nama, lahir, alamat, golongan darah, jenis kelamin, umur, tempat kerja, pengalaman, kemampuan
-            logger.info("Masukan nama: ");
-            String inputNamaTutor = scan.nextLine();
-            logger.info("Masukan tanggal lahir spasi dengan (-): ");
-            String dataLahirTutor = scan.nextLine();
-            logger.info("Tempat tinggal: ");
-            String alamatTutor = scan.nextLine();
-            logger.info("Umur: ");
-            int umurTutor = -1;
-            if (scan.hasNextInt()) {
-                umurTutor = scan.nextInt();
-                scan.nextLine(); // consume newline
-            }
-            logger.info("Tempat berkerja saat ini: ");
-            String tempatBekerja = scan.nextLine();
-            logger.info("Pengalaman: ");
-            String pengalaman = scan.nextLine();
-            logger.info("Kemampuan: ");
-            String kemampuan = scan.nextLine();
+            BioData data = InputUtils.readBioData(
+                scan,
+                logger,
+                null,
+                "Tempat berkerja saat ini",
+                "Pengalaman",
+                "Kemampuan"
+            );
+
             UserTutor ut = new UserTutor(
-                inputNamaTutor,
-                dataLahirTutor,
-                alamatTutor,
-                scan.hasNextLine() ? scan.nextLine() : "",
-                umurTutor,
-                tempatBekerja,
-                pengalaman,
-                kemampuan
+                data.nama(),
+                data.dataLahir(),
+                data.alamat(),
+                data.jenisKelamin(),
+                data.umur(),
+                data.extra1(),
+                data.extra2(),
+                data.extra3()
             );
             logger.info("Memeriksa ketersediaan tutor...");
             if (schedule.isEmpty()) {
-                ut.menerimaPesanan(inputNamaTutor);
+                ut.menerimaPesanan(data.nama());
                 konfirmasiPesanan();
                 ut.menjalankanTutoring();
             } else {
-                ut.menolakPesanan(inputNamaTutor);
+                ut.menolakPesanan(data.nama());
             }
         } catch (InputMismatchException e) {
             logger.log(Level.SEVERE, e.getMessage());

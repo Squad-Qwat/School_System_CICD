@@ -54,42 +54,31 @@ public class JadwalPelajar extends Jadwal implements IfaceJadwal {
     @Override
     public void cekKetersediaan() {
         Scanner scan = InputUtils.getScanner();
-        logger.info("Masukan nama: ");
-        String inputNamaPelajar = scan.nextLine();
-        logger.info("Masukan tanggal lahir spasi dengan (-): ");
-        String dataLahirPelajar = scan.nextLine();
-        logger.info("Tempat tinggal: ");
-        String alamatPelajar = scan.nextLine();
-        logger.info("Umur: ");
-        int umurPelajar = -1;
-        if (scan.hasNextInt()) {
-            umurPelajar = scan.nextInt();
-            scan.nextLine(); // consume newline
-        }
-        logger.info("Masukan Sekolah: ");
-        String sekolah = scan.nextLine();
-        logger.info("Masukan pelajaran: ");
-        String course = scan.nextLine();
-        logger.info("Masukan tutor: ");
-        String tutor = scan.nextLine();
-        logger.info("Masukan email: ");
-        String email = scan.nextLine();
+        BioData data = InputUtils.readBioData(
+            scan,
+            logger,
+            "Masukan email",
+            "Masukan Sekolah",
+            "Masukan pelajaran",
+            "Masukan tutor"
+        );
+
         UserPelajar up = new UserPelajar(
-            inputNamaPelajar,
-            dataLahirPelajar,
-            alamatPelajar,
-            email,
-            umurPelajar,
-            sekolah,
-            course,
-            tutor
+            data.nama(),
+            data.dataLahir(),
+            data.alamat(),
+            data.jenisKelamin(),
+            data.umur(),
+            data.extra1(),
+            data.extra2(),
+            data.extra3()
         );
         logger.info("Memeriksa ketersediaan pelajar...");
         logger.info("Pilih tutor: ");
         up.memilihTutor(scan.nextLine());
         if (schedule.isEmpty()) {
             up.menghubungiViaChat();
-            up.melakukanPembayaran(20000, inputNamaPelajar, tutor);
+            up.melakukanPembayaran(20000, data.nama(), data.extra3());
             konfirmasiPesanan();
         } else {
             logger.info("Tutor tidak tersedia");
