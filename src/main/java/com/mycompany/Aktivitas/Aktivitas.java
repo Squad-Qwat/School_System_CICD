@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 public class Aktivitas {
     // Menambahkan komentar untuk melihat trigger Continous Integration pada branch dev
     
-    private static final Logger logger = Logger.getLogger(
+    private static final Logger logger = ogger.getLogger(
         Aktivitas.class.getName()
     );
     public static final String STATUS_MULAI = "Mulai";
