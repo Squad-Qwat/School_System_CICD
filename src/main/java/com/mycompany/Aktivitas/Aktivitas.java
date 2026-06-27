@@ -11,7 +11,8 @@ import java.util.logging.Logger;
  * @author timot
  */
 public class Aktivitas {
-
+    // Menambahkan komentar untuk melihat trigger Continous Integration pada branch dev
+    
     private static final Logger logger = Logger.getLogger(
         Aktivitas.class.getName()
     );
