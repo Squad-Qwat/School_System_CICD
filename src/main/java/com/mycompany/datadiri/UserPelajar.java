@@ -5,13 +5,18 @@
 package com.mycompany.datadiri;
 
 import com.mycompany.transaksi.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-//import java.util.Arrays;
 /**
  *
  * @author hp
  */
 public class UserPelajar extends Datadiri {
+
+    private static final Logger logger = Logger.getLogger(
+        UserPelajar.class.getName()
+    );
 
     private String sekolah;
     private String course;
@@ -59,11 +64,11 @@ public class UserPelajar extends Datadiri {
 
     public void memilihTutor(String tutor) {
         this.tutor = tutor;
-        System.out.println("Tutor chosen: " + tutor);
+        logger.log(Level.INFO, "Tutor chosen: {0}", tutor);
     }
 
     public void menghubungiViaChat() {
-        System.out.println("Chatting with tutor");
+        logger.info("Chatting with tutor");
     }
 
     public void melakukanPembayaran(int uang, String pelajar, String tutor) {
@@ -76,48 +81,30 @@ public class UserPelajar extends Datadiri {
                 "Bukti"
             );
             pr.melakukanPembayaran();
-            if (
-                pr.prosesTransaksi() == true &&
-                pr.lihatStatus().equals("Sukses")
-            ) {
+            if (pr.prosesTransaksi() && pr.lihatStatus().equals("Sukses")) {
                 pr.pembayaranDiterima();
                 pr.memesanDosen();
                 pr.mendapatBuktiBayar();
             }
         } catch (Exception e) {
-            //System.err.println(e.fillInStackTrace());
-            //System.err.println(Arrays.toString(e.getStackTrace()));
-            System.err.println(e.getCause());
-            System.err.println(e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage());
         }
     }
 
     @Override
-    public void mengisiBioData(
-        String nama,
-        String dataLahir,
-        String alamat,
-        String jenisKelamin,
-        int umur,
-        String sekolah,
-        String course,
-        String tutor
-    ) {
+    public void mengisiBioData(BioData data) {
         try {
-            setNama(nama);
-            setDataLahir(dataLahir);
-            setAlamat(alamat);
-            setJenisKelamin(jenisKelamin);
-            setUmur(umur);
-            setSekolah(sekolah);
-            setCourse(course);
-            setTutor(tutor);
+            setNama(data.nama());
+            setDataLahir(data.dataLahir());
+            setAlamat(data.alamat());
+            setJenisKelamin(data.jenisKelamin());
+            setUmur(data.umur());
+            setSekolah(data.extra1());
+            setCourse(data.extra2());
+            setTutor(data.extra3());
         } catch (Exception e) {
-            //System.err.println(e.fillInStackTrace());
-            //System.err.println(Arrays.toString(e.getStackTrace()));
-            System.err.println(e.getCause());
-            System.err.println(e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage());
         }
-        System.out.println("Biodata filled");
+        logger.info("Biodata filled");
     }
 }

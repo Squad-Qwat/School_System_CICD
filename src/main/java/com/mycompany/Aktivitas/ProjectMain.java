@@ -8,7 +8,10 @@ import com.mycompany.classjadwal.*;
 import com.mycompany.datadiri.*;
 import com.mycompany.pembelajaran.*;
 import com.mycompany.transaksi.*;
+import com.mycompany.utils.InputUtils;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import regis.login.*;
 
 /**
@@ -17,44 +20,45 @@ import regis.login.*;
  */
 public class ProjectMain {
 
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
+    private static final Logger logger = Logger.getLogger(
+        ProjectMain.class.getName()
+    );
 
+    public static void main(String[] args) {
+        Scanner scan = InputUtils.getScanner();
         int input = -1;
 
-        System.out.println("===== Registrasi =====");
-        System.out.print("Masukkan Username: ");
+        logger.info("===== Registrasi =====");
+        logger.info("Masukkan Username: ");
         String username = scan.nextLine();
-        System.out.print("Masukkan Password: ");
+        logger.info("Masukkan Password: ");
         String password = scan.nextLine();
-        System.out.print("Masukkan Email: ");
+        logger.info("Masukkan Email: ");
         String email = scan.nextLine();
 
         // Registrasi dengan ID otomatis
         Registrasi regUser = new Registrasi(username, password, email);
         regUser.register(username, password, email);
 
-        Scanner s = new Scanner(System.in);
-        System.out.println("======== Login =======");
+        logger.info("======== Login =======");
         Login loginUser = new Login(
             regUser.getUsername(),
             regUser.getPassword()
         );
         int attempts = 3; // Batas percobaan login
-        s.close();
 
         while (attempts > 0) {
-            System.out.print("Masukkan Username: ");
-            String inputUsername = s.nextLine();
-            System.out.print("Masukkan Password: ");
-            String inputPassword = s.nextLine();
+            logger.info("Masukkan Username: ");
+            String inputUsername = scan.nextLine();
+            logger.info("Masukkan Password: ");
+            String inputPassword = scan.nextLine();
             try {
                 if (loginUser.login(inputUsername, inputPassword)) {
                     break; // Berhenti jika login berhasil
                 } else {
                     attempts--;
                     if (attempts > 0) {
-                        System.out.println("Sisa percobaan: " + attempts);
+                        logger.log(Level.INFO, "Sisa percobaan: {0}", attempts);
                     } else {
                         throw new Exception(
                             "Anda telah melebihi batas percobaan login."
@@ -62,17 +66,22 @@ public class ProjectMain {
                     }
                 }
             } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
+                logger.log(Level.SEVERE, "Error: {0}", e.getMessage());
             }
         }
-        System.out.println("======== Menu ========");
+        logger.info("======== Menu ========");
         do {
             printHeader();
-            input = scan.nextInt();
+            if (scan.hasNextInt()) {
+                input = scan.nextInt();
+                scan.nextLine(); // consume newline
+            } else {
+                scan.next(); // consume invalid input
+                continue;
+            }
             switch (input) {
                 case 1:
                     try {
-                        Scanner pelajarS = new Scanner(System.in);
                         UserPelajar userPelajar = new UserPelajar(
                             "Guest",
                             "xx-xxxx",
@@ -83,51 +92,25 @@ public class ProjectMain {
                             "Course",
                             "tutor"
                         );
-                        System.out.print("Masukan nama: ");
-                        String namaPelajar = pelajarS.nextLine();
-                        System.out.print(
-                            "Masukan tanggal lahir spasi dengan (-): "
+                        BioData dataPelajar = InputUtils.readBioData(
+                            scan,
+                            logger,
+                            null,
+                            "Masukan Sekolah",
+                            "Masukan pelajaran",
+                            "Masukan tutor"
                         );
-                        String dataLahirPelajar = pelajarS.nextLine();
-                        System.out.print("Tempat tinggal: ");
-                        String alamatPelajar = pelajarS.nextLine();
-                        System.out.print("Umur: ");
-                        int umurPelajar = pelajarS.nextInt();
-                        Scanner pelajarSS = new Scanner(System.in);
-                        System.out.print("Masukan Sekolah: ");
-                        String Sekolah = pelajarSS.nextLine();
-                        System.out.print("Masukan pelajaran: ");
-                        String Course = pelajarSS.nextLine();
-                        System.out.print("Masukan tutor: ");
-                        String Tutor = pelajarSS.nextLine();
 
-                        pelajarS.close();
-                        pelajarSS.close();
-
-                        userPelajar.mengisiBioData(
-                            namaPelajar,
-                            dataLahirPelajar,
-                            alamatPelajar,
-                            pelajarSS.nextLine(),
-                            umurPelajar,
-                            Sekolah,
-                            Course,
-                            Tutor
-                        );
-                        //System.out.print("Masukan tutor yang dipilih: ");
-                        //String tutorPilihan = pelajarSS.nextLine();
-                        userPelajar.memilihTutor(Tutor);
+                        userPelajar.mengisiBioData(dataPelajar);
+                        userPelajar.memilihTutor(dataPelajar.extra3());
                         userPelajar.menghubungiViaChat();
                         userPelajar.melakukanPembayaran(
                             1000,
-                            namaPelajar,
-                            Tutor
+                            dataPelajar.nama(),
+                            dataPelajar.extra3()
                         );
                     } catch (InputMismatchException e) {
-                        //System.err.println(e.fillInStackTrace());
-                        //System.err.println(Arrays.toString(e.getStackTrace()));
-                        //System.err.println(e.getCause());
-                        System.err.println(e.getMessage());
+                        logger.log(Level.SEVERE, e.getMessage());
                     }
                     break;
                 case 2:
@@ -142,107 +125,68 @@ public class ProjectMain {
                             "Pengalaman",
                             "kemampuan"
                         );
-                        Scanner sc = new Scanner(System.in);
                         // Untuk menginput biodata yang ada
-                        System.out.print("Masukan nama: ");
-                        String namaTutor = sc.nextLine();
-                        System.out.print(
-                            "Masukan tanggal lahir spasi dengan (-): "
+                        BioData dataTutor = InputUtils.readBioData(
+                            scan,
+                            logger,
+                            null,
+                            "Tempat berkerja saat ini",
+                            "Pengalaman",
+                            "Kemampuan"
                         );
-                        String dataLahirTutor = sc.nextLine();
-                        System.out.print("Tempat tinggal: ");
-                        String alamatTutor = sc.nextLine();
-                        System.out.print("Umur: ");
-                        int umurTutor = sc.nextInt();
-                        Scanner ssc = new Scanner(System.in);
-                        System.out.print("Tempat berkerja saat ini: ");
-                        String tempatBekerja = ssc.nextLine();
-                        System.out.print("Pengalaman: ");
-                        String pengalaman = ssc.nextLine();
-                        System.out.print("Kemampuan: ");
-                        String kemampuan = ssc.nextLine();
-                        userTutor.mengisiBioData(
-                            namaTutor,
-                            dataLahirTutor,
-                            alamatTutor,
-                            ssc.nextLine(),
-                            umurTutor,
-                            tempatBekerja,
-                            pengalaman,
-                            kemampuan
-                        );
+                        userTutor.mengisiBioData(dataTutor);
 
-                        System.out.print(
-                            "Apakah menerima pesanan? (ya/tidak): "
-                        );
-                        String approval = ssc.nextLine();
-                        if (
-                            "ya".equalsIgnoreCase(approval) &&
-                            "Ya".equalsIgnoreCase(approval)
-                        ) {
+                        logger.info("Apakah menerima pesanan? (ya/tidak): ");
+                        String approval = scan.nextLine();
+                        if ("ya".equalsIgnoreCase(approval)) {
                             userTutor.menerimaPesanan("Pesan");
-                        } else if (
-                            "tidak".equalsIgnoreCase(approval) &&
-                            "Tidak".equalsIgnoreCase(approval)
-                        ) {
+                        } else if ("tidak".equalsIgnoreCase(approval)) {
                             userTutor.menolakPesanan("Pesan");
                         } else {
-                            System.out.println(
+                            logger.info(
                                 "Bukan jawaban valid, masukkan respon yang benar"
                             );
                         }
-                        ssc.close();
-                        sc.close();
                     } catch (InputMismatchException e) {
-                        //System.err.println(e.fillInStackTrace());
-                        //System.err.println(Arrays.toString(e.getStackTrace()));
-                        //System.err.println(e.getCause());
-                        System.err.println(e.getMessage());
+                        logger.log(Level.SEVERE, e.getMessage());
                     }
                     break;
                 case 3:
                     JadwalPelajar pelajar = new JadwalPelajar(
-                        5,
-                        "Desember",
-                        2024,
-                        "Kamis",
+                        new DateInfo(5, "Desember", 2024, "Kamis"),
                         "12A",
                         "Matematika",
                         201,
                         "Andi"
                     );
-                    System.out.println(pelajar.getPelajarInfo());
+                    logger.info(pelajar.getPelajarInfo());
                     pelajar.cekKetersediaan();
                     break;
                 case 4:
                     JadwalTutor tutor = new JadwalTutor(
-                        5,
-                        "Desember",
-                        2024,
-                        "Kamis",
+                        new DateInfo(5, "Desember", 2024, "Kamis"),
                         "12A",
                         "Matematika",
                         101,
                         "Budi",
                         4.5f
                     );
-                    System.out.println(tutor.getTutorInfo());
+
+                    logger.info(tutor.getTutorInfo());
                     tutor.cekKetersediaan();
                     break;
                 case 5:
                     try {
-                        Scanner scanner = new Scanner(System.in);
-                        System.out.print(
+                        logger.info(
                             "Masukkan Jenjang Pendidikan (SD/SMP/SMA/SMK/Kuliah): "
                         );
-                        String jenjang = scanner.nextLine().toUpperCase();
+                        String jenjang = scan.nextLine().toUpperCase();
 
                         Pembelajaran pembelajaran = new Pembelajaran();
                         pembelajaran.setJenjangPendidikan(jenjang);
 
                         LatihanSoal latihanSoal = new LatihanSoal();
                         Materi materi = new Materi();
-                        scanner.close();
 
                         if (jenjang.equals("SD")) {
                             pembelajaran.setNamaMataPelajaran(
@@ -334,34 +278,34 @@ public class ProjectMain {
                             );
                             latihanSoal.setKunciJawaban("A");
                         } else {
-                            System.out.println(
-                                "Jenjang pendidikan tidak dikenali."
-                            );
+                            logger.info("Jenjang pendidikan tidak dikenali.");
                         }
-                        System.out.println("\n--- Informasi Pembelajaran ---");
+                        logger.info("\n--- Informasi Pembelajaran ---");
                         pembelajaran.tampilkanInfo();
 
-                        System.out.println("\n--- Materi ---");
+                        logger.info("\n--- Materi ---");
                         materi.tampilkanMateri();
 
-                        System.out.println("\n--- Latihan Soal ---");
-                        System.out.println(
-                            "Pertanyaan: " + latihanSoal.getPertanyaan()
+                        logger.info("\n--- Latihan Soal ---");
+                        logger.log(
+                            Level.INFO,
+                            "Pertanyaan: {0}",
+                            latihanSoal.getPertanyaan()
                         );
-                        System.out.println(
-                            "Pilihan Jawaban:\n" +
-                                latihanSoal.getPilihanJawaban()
+                        logger.log(
+                            Level.INFO,
+                            "Pilihan Jawaban:\n{0}",
+                            latihanSoal.getPilihanJawaban()
                         );
-                        System.out.print("Masukkan Jawaban Anda: ");
-                        String jawabanUser = scanner.nextLine();
+                        logger.info("Masukkan Jawaban Anda: ");
+                        String jawabanUser = scan.nextLine();
                         latihanSoal.periksaJawaban(jawabanUser);
-                    } catch (
-                        Exception e //Penyebab errornya adalah exception class yang digunakan terlalu spesifik
-                    ) {
-                        //System.err.println(e.fillInStackTrace());
-                        //System.err.println(Arrays.toString(e.getStackTrace()));
-                        //System.err.println("Penyebab error: " + e.getCause());
-                        System.err.println("Terjadi error:" + e.getMessage());
+                    } catch (Exception e) {
+                        logger.log(
+                            Level.SEVERE,
+                            "Terjadi error: {0}",
+                            e.getMessage()
+                        );
                     }
                     break;
                 case 6:
@@ -375,8 +319,10 @@ public class ProjectMain {
                     pembayaran.memesanDosen();
                     pembayaran.melakukanPembayaran();
                     pembayaran.mendapatBuktiBayar();
-                    System.out.println(
-                        "Status Pembayaran: " + pembayaran.lihatStatus()
+                    logger.log(
+                        Level.INFO,
+                        "Status Pembayaran: {0}",
+                        pembayaran.lihatStatus()
                     );
                     break;
                 case 7:
@@ -392,28 +338,30 @@ public class ProjectMain {
                     break;
                 case 8:
                     try {
-                        Aktivitas diskusi = new Diskusi(
+                        Diskusi diskusi = new Diskusi(
                             "Kapan aja",
                             60,
                             "diam",
                             "Forum B",
                             120
                         );
-                        ((Diskusi) diskusi).MulaiDiskusi();
-                        System.out.println(diskusi.cekStatus());
-                        System.out.println(diskusi.getDurasi());
-                        ((Diskusi) diskusi).TutupDiskusi();
-                        ((Diskusi) diskusi).MenjawabPertanyaan();
-                        System.out.println(diskusi.cekStatus());
-                        break;
+                        diskusi.mulaiDiskusi();
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(diskusi.cekStatus());
+                        }
+                        logger.log(Level.INFO, "{0}", diskusi.getDurasi());
+                        diskusi.tutupDiskusi();
+                        diskusi.menjawabPertanyaan();
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(diskusi.cekStatus());
+                        }
                     } catch (Exception e) {
-                        //System.err.println(e.getCause());
-                        System.err.println(e.getMessage());
+                        logger.log(Level.SEVERE, e.getMessage());
                     }
                     break;
                 case 9:
                     try {
-                        Aktivitas konsul = new Konsultasi(
+                        Konsultasi konsul = new Konsultasi(
                             "11-04-2025",
                             100,
                             "diam",
@@ -421,100 +369,103 @@ public class ProjectMain {
                             "Ruangan B"
                         );
                         konsul.setAktivitas("Mulai");
-                        System.out.println(konsul.getJadwal());
-                        System.out.println(konsul.cekStatus());
-                        System.out.printf("Pilih tutor: ");
-                        ((Konsultasi) konsul).MenentukanTutor();
-                        System.out.printf("Tentukan jadwal konsultasi: ");
-                        ((Konsultasi) konsul).MelakukanPenjadwalan();
-                        System.out.printf("Pilih topik konsultasi: ");
-                        ((Konsultasi) konsul).MenentukanTopik();
-                        System.out.printf("Pilih tempat konsultasi: ");
-                        ((Konsultasi) konsul).MengaturTempat();
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(konsul.getJadwal());
+                        }
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(konsul.cekStatus());
+                        }
+                        logger.info("Pilih tutor: ");
+                        konsul.menentukanTutor();
+                        logger.info("Tentukan jadwal konsultasi: ");
+                        konsul.melakukanPenjadwalan();
+                        logger.info("Pilih topik konsultasi: ");
+                        konsul.menentukanTopik();
+                        logger.info("Pilih tempat konsultasi: ");
+                        konsul.mengaturTempat();
                         konsul.setAktivitas("Selesai");
-                        System.out.println(konsul.cekStatus());
-                        break;
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(konsul.cekStatus());
+                        }
                     } catch (Exception e) {
-                        //System.err.println(e.getCause());
-                        System.err.println(e.getMessage());
+                        logger.log(Level.SEVERE, e.getMessage());
                     }
                     break;
                 case 10:
                     try {
-                        Scanner sc = new Scanner(System.in);
-                        Aktivitas sesiTutoring = new SesiTutoring(
+                        SesiTutoring sesiTutoring = new SesiTutoring(
                             "01-04-2025",
                             180,
                             "diam",
-                            "Murid1",
-                            "Tutor1",
-                            "Tugas1",
-                            "Math",
-                            "Notes"
+                            new SesiTutoring.TutoringDetails(
+                                "Murid1",
+                                "Tutor1",
+                                "Tugas1",
+                                "Math",
+                                "Notes"
+                            )
                         );
                         sesiTutoring.setAktivitas("Mulai");
-                        System.out.println(sesiTutoring.getJadwal());
-                        System.out.println(sesiTutoring.cekStatus());
-                        ((SesiTutoring) sesiTutoring).setNamaCourse("Biologi");
-                        System.out.println(
-                            ((SesiTutoring) sesiTutoring).getNamaCourse()
-                        );
-                        ((SesiTutoring) sesiTutoring).setIDMurid("Budi");
-                        System.out.println(
-                            ((SesiTutoring) sesiTutoring).getIDMurid()
-                        );
-                        ((SesiTutoring) sesiTutoring).setIDTutor("Anto");
-                        System.out.println(
-                            ((SesiTutoring) sesiTutoring).getIDTutor()
-                        );
-                        System.out.printf("Masukkan tugas sesi tutoring: ");
-                        ((SesiTutoring) sesiTutoring).setTugas(sc.nextLine());
-                        System.out.println(
-                            ((SesiTutoring) sesiTutoring).getTugas()
-                        );
-                        ((SesiTutoring) sesiTutoring).selesaikanTugas();
-                        System.out.printf("Buat catatan: ");
-                        (
-                            (SesiTutoring) sesiTutoring
-                        ).tambahCatatanPembelajaran();
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(sesiTutoring.getJadwal());
+                        }
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(sesiTutoring.cekStatus());
+                        }
+                        sesiTutoring.setNamaCourse("Biologi");
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(sesiTutoring.getNamaCourse());
+                        }
+                        sesiTutoring.setIdMurid("Budi");
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(sesiTutoring.getIdMurid());
+                        }
+                        sesiTutoring.setIdTutor("Anto");
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(sesiTutoring.getIdTutor());
+                        }
+                        logger.info("Masukkan tugas sesi tutoring: ");
+                        sesiTutoring.setTugas(scan.nextLine());
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(sesiTutoring.getTugas());
+                        }
+                        sesiTutoring.selesaikanTugas();
+                        logger.info("Buat catatan: ");
+                        sesiTutoring.tambahCatatanPembelajaran();
                         sesiTutoring.setAktivitas("Selesai");
-                        ((SesiTutoring) sesiTutoring).postTugas();
-                        ((SesiTutoring) sesiTutoring).postCatatanPembelajaran();
-                        System.out.println(sesiTutoring.cekStatus());
-                        sc.close();
-                        break;
+                        sesiTutoring.postTugas();
+                        sesiTutoring.postCatatanPembelajaran();
+                        if (logger.isLoggable(Level.INFO)) {
+                            logger.info(sesiTutoring.cekStatus());
+                        }
                     } catch (Exception e) {
-                        //System.err.println(e.getCause());
-                        System.err.println(e.getMessage());
+                        logger.log(Level.SEVERE, e.getMessage());
                     }
                     break;
                 case 0:
-                    System.out.println(
-                        "Terimakasih telah menggunakan aplikasi ini!"
-                    );
+                    logger.info("Terimakasih telah menggunakan aplikasi ini!");
                     break;
                 default:
-                    System.out.println(
+                    logger.info(
                         "[Error] Salah memasukkan angka, masukkan angka yang valid"
                     );
                     break;
             }
         } while (input != 0);
-        scan.close();
     }
 
     public static void printHeader() {
-        System.out.println("1. Identitas pelajar");
-        System.out.println("2. Identitas tutor");
-        System.out.println("3. Jadwal pelajar");
-        System.out.println("4. Jadwal tutor");
-        System.out.println("5. materi");
-        System.out.println("6. Transaksi");
-        System.out.println("7. Refund");
-        System.out.println("8. Diskusi");
-        System.out.println("9. Konsultasi");
-        System.out.println("10. Tutoring");
-        System.out.println("0. Keluar");
-        System.out.print("Masukkan input >>");
+        logger.info("1. Identitas pelajar");
+        logger.info("2. Identitas tutor");
+        logger.info("3. Jadwal pelajar");
+        logger.info("4. Jadwal tutor");
+        logger.info("5. materi");
+        logger.info("6. Transaksi");
+        logger.info("7. Refund");
+        logger.info("8. Diskusi");
+        logger.info("9. Konsultasi");
+        logger.info("10. Tutoring");
+        logger.info("0. Keluar");
+        logger.info("Masukkan input >>");
     }
 }

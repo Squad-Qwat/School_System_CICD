@@ -3,26 +3,37 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.Aktivitas;
+
 import java.io.*;
-//import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author timot
  */
-public class Konsultasi extends Aktivitas
-{
+public class Konsultasi extends Aktivitas {
+
+    private static final Logger logger = Logger.getLogger(
+        Konsultasi.class.getName()
+    );
+    private static final String ERROR_MSG = "Error terjadi: {0}";
     private String nama;
     private String tempat;
 
-    public Konsultasi(String jadwal, int durasi, String status, String nama, String tempat)
-    {
+    public Konsultasi(
+        String jadwal,
+        int durasi,
+        String status,
+        String nama,
+        String tempat
+    ) {
         super(jadwal, durasi, status);
         this.nama = nama;
         this.tempat = tempat;
     }
 
-    public String getNama() 
-    {
+    public String getNama() {
         return nama;
     }
 
@@ -38,76 +49,64 @@ public class Konsultasi extends Aktivitas
         this.tempat = tempat;
     }
 
-    public void MelakukanPenjadwalan()
-    {
-        try 
-        {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public void melakukanPenjadwalan() {
+        try {
+            BufferedReader br = new BufferedReader(
+                new InputStreamReader(System.in)
+            );
             String tanggal = br.readLine();
             int lama = br.read();
             setJadwal(tanggal);
             setDurasi(lama);
-            System.out.printf("Jadwal konsultasi: %s, durasi: % d\n", getJadwal(), getDurasi());
-        } 
-        catch (IOException e) 
-        {
-            //System.err.println(e.fillInStackTrace());
-            //System.err.println(Arrays.toString(e.getStackTrace()));
-            //System.err.println(e.getCause());
-            System.err.println("Error terjadi: " + e.getMessage());
+            logger.log(
+                Level.INFO,
+                "Jadwal konsultasi: {0}, durasi: {1}%n",
+                new Object[] { getJadwal(), getDurasi() }
+            );
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, ERROR_MSG, e.getMessage());
         }
     }
 
-    public void MengaturTempat()
-    {
-        try 
-        {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public void mengaturTempat() {
+        try {
+            BufferedReader br = new BufferedReader(
+                new InputStreamReader(System.in)
+            );
             String lokasi = br.readLine();
             setTempat(lokasi);
-            System.out.printf("Tempat konsultasi: %s\n", getTempat());
-        } 
-        catch (IOException e) 
-        {
-            //System.err.println(e.fillInStackTrace());
-            //System.err.println(Arrays.toString(e.getStackTrace()));
-            //System.err.println(e.getCause());
-            System.err.println("Error terjadi: " + e.getMessage());
+            logger.log(Level.INFO, "Tempat konsultasi: {0}%n", getTempat());
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, ERROR_MSG, e.getMessage());
         }
     }
 
-    public void MenentukanTutor()
-    {
-        try 
-        {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public void menentukanTutor() {
+        try {
+            BufferedReader br = new BufferedReader(
+                new InputStreamReader(System.in)
+            );
             String tutor = br.readLine();
             setNama(tutor);
-            System.out.printf("Tutor yang akan dijadwalkan: %s\n", getNama());
-        } 
-        catch (IOException e) 
-        {
-            //System.err.println(e.fillInStackTrace());
-            //System.err.println(Arrays.toString(e.getStackTrace()));
-            //System.err.println(e.getCause());
-            System.err.println("Error terjadi: " + e.getMessage());
+            logger.log(
+                Level.INFO,
+                "Tutor yang akan dijadwalkan: {0}%n",
+                getNama()
+            );
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, ERROR_MSG, e.getMessage());
         }
     }
 
-    public void MenentukanTopik()
-    {
-        try 
-        {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public void menentukanTopik() {
+        try {
+            BufferedReader br = new BufferedReader(
+                new InputStreamReader(System.in)
+            );
             String topik = br.readLine();
-            System.out.printf("membahas tentang : %s\n", topik);
-        } 
-        catch (IOException e) 
-        {
-            //System.err.println(e.fillInStackTrace());
-            //System.err.println(Arrays.toString(e.getStackTrace()));
-            //System.err.println(e.getCause());
-            System.err.println("Error terjadi: " + e.getMessage());
+            logger.log(Level.INFO, "membahas tentang : {0}%n", topik);
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, ERROR_MSG, e.getMessage());
         }
     }
 }
