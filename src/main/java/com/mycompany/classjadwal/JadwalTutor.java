@@ -51,7 +51,7 @@ public class JadwalTutor extends Jadwal implements IfaceJadwal {
     public String getTutorInfo() {
         return (
             "ID Tutor: " +
-            idTutor +
+            getIdTutor() +
             ", Nama: " +
             namaTutor +
             ", Rating: " +
