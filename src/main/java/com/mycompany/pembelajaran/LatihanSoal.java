@@ -1,15 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.pembelajaran;
-//import java.util.Arrays;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author User
  */
-public class LatihanSoal 
-{
+public class LatihanSoal {
+
+    private static final Logger logger = Logger.getLogger(
+        LatihanSoal.class.getName()
+    );
     private String kodeSoal;
     private String pertanyaan;
     private String pilihanJawaban;
@@ -74,25 +76,15 @@ public class LatihanSoal
         this.deadline = tenggat;
     }
 
-    public void periksaJawaban(String jawaban) 
-    {
-        try
-        {
-            if (jawaban.equals(kunciJawaban)) 
-            {
-                System.out.println("Jawaban Benar!");
-            } 
-            else 
-            {
-                System.out.println("Jawaban Salah!");
+    public void periksaJawaban(String jawaban) {
+        try {
+            if (jawaban.equals(kunciJawaban)) {
+                logger.info("Jawaban Benar!");
+            } else {
+                logger.info("Jawaban Salah!");
             }
-        } 
-        catch (Exception e) 
-        {
-            //System.err.println(e.fillInStackTrace());
-            //System.err.println(Arrays.toString(e.getStackTrace()));
-            System.err.println(e.getCause());
-            System.err.println("Error terjadi: " + e.getMessage());
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error terjadi: {0}", e.getMessage());
         }
     }
 }

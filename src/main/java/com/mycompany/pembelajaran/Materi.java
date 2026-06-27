@@ -1,14 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.pembelajaran;
-//import java.util.Arrays;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author User
  */
 public class Materi {
+
+    private static final Logger logger = Logger.getLogger(
+        Materi.class.getName()
+    );
     private String judulMateri;
     private String isiMateri;
     private String sumberReferensi;
@@ -37,20 +40,13 @@ public class Materi {
         this.sumberReferensi = sumber;
     }
 
-    public void tampilkanMateri() 
-    {
-        try 
-        {
-            System.out.println("Judul Materi: " + judulMateri);
-            System.out.println("Isi Materi: " + isiMateri);
-            System.out.println("Sumber Referensi: " + sumberReferensi);
-        } 
-        catch (Exception e) 
-        {
-            //System.err.println(e.fillInStackTrace());
-            //System.err.println(Arrays.toString(e.getStackTrace()));
-            System.err.println(e.getCause());
-            System.err.println("Error terjadi: " + e.getMessage());
+    public void tampilkanMateri() {
+        try {
+            logger.log(Level.INFO, "Judul Materi: {0}", judulMateri);
+            logger.log(Level.INFO, "Isi Materi: {0}", isiMateri);
+            logger.log(Level.INFO, "Sumber Referensi: {0}", sumberReferensi);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error terjadi: {0}", e.getMessage());
         }
     }
 }

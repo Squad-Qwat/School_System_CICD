@@ -3,27 +3,48 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.datadiri;
-import java.io.*;
-import java.util.*;
-import java.time.*;
+
 import com.mycompany.pembelajaran.*;
+import com.mycompany.utils.InputUtils;
+import java.time.*;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author hp
  */
-public class UserTutor extends Datadiri
-{
+public class UserTutor extends Datadiri {
+
+    private static final Logger logger = Logger.getLogger(
+        UserTutor.class.getName()
+    );
+
     private String tempatBekerja;
     private String pengalaman;
     private String kemampuan;
     private List<String> schedule;
 
-    public UserTutor(String nama, String dataLahir, String alamat, String jenisKelamin, int umur, String tempatBekerja, String pengalaman, String kemampuan) {
+    public UserTutor(
+        String nama,
+        String dataLahir,
+        String alamat,
+        String jenisKelamin,
+        int umur,
+        String tempatBekerja,
+        String pengalaman,
+        String kemampuan
+    ) {
         super(nama, dataLahir, alamat, jenisKelamin, umur);
         this.tempatBekerja = tempatBekerja;
         this.pengalaman = pengalaman;
         this.kemampuan = kemampuan;
-        this.schedule = new ArrayList<String>();
+        this.schedule = new ArrayList<>();
+    }
+
+    public String getTempatBekerja() {
+        return tempatBekerja;
     }
 
     public void setTempatBekerja(String tempatBekerja) {
@@ -34,172 +55,180 @@ public class UserTutor extends Datadiri
         this.pengalaman = pengalaman;
     }
 
+    public String getPengalaman() {
+        return pengalaman;
+    }
+
+    public String getKemampuan() {
+        return kemampuan;
+    }
+
     public void setKemampuan(String kemampuan) {
         this.kemampuan = kemampuan;
     }
-    
-    public void menerimaPesanan(String pesan) 
-    { 
-        // Logic to receive order 
-        System.out.println("Order received: " + pesan);
+
+    public void menerimaPesanan(String pesan) {
+        // Logic to receive order
+        logger.log(Level.INFO, "Order received: {0}", pesan);
         melakukanPenjadwalan();
-    } 
-    
-    public void menolakPesanan(String pesan) 
-    { 
-        // Logic to reject order 
-        System.out.println("Order rejected: " + pesan); 
     }
-    
-    public void melakukanPenjadwalan() 
-    { 
-        // Logic to schedule 
-        System.out.println("Scheduling..."); 
-        if (schedule.isEmpty()) 
-        { 
-            try 
-            { 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)); 
-                System.out.print("Enter subject for the appointment: "); 
-                String subject = reader.readLine(); 
-                schedule.add(subject); 
-                System.out.println("Appointment scheduled with subject: " + subject); 
-            } 
-            catch (IOException e) 
-            { 
-                System.err.println("An error occurred while reading input: " + e.getMessage());
-            } 
-        } 
-        else 
-        { 
-            System.out.println("Schedule is not empty. Cannot make an appointment."); 
-        }
-    } 
-    public void menjalankanTutoring() 
-    { 
-        // Logic to start tutoring 
-        System.out.println("Tutoring started...");
-        try 
-        { 
-            Scanner scanTutor = new Scanner(System.in);
-            System.out.print("Enter duration of the tutoring session in seconds: "); 
-            int durationSecond = Integer.parseInt(scanTutor.nextLine()); 
-            menjalankanTutoring(durationSecond);
-        }
-        catch (Exception e) 
-        { 
-            System.out.println("An error occurred: " + e.getMessage()); 
+
+    public void menolakPesanan(String pesan) {
+        // Logic to reject order
+        logger.log(Level.INFO, "Order rejected: {0}", pesan);
+    }
+
+    public void melakukanPenjadwalan() {
+        // Logic to schedule
+        logger.info("Scheduling...");
+        if (schedule.isEmpty()) {
+            Scanner scan = InputUtils.getScanner();
+            try {
+                logger.info("Enter subject for the appointment: ");
+                String subject = "";
+                if (scan.hasNextLine()) {
+                    subject = scan.nextLine();
+                }
+                schedule.add(subject);
+                logger.log(
+                    Level.INFO,
+                    "Appointment scheduled with subject: {0}",
+                    subject
+                );
+            } catch (Exception e) {
+                logger.log(
+                    Level.SEVERE,
+                    "An error occurred while reading input: {0}",
+                    e.getMessage()
+                );
+            }
+        } else {
+            logger.info("Schedule is not empty. Cannot make an appointment.");
         }
     }
 
-    public void menjalankanTutoring(int durationSecond) 
-    { 
-        System.out.println("Tutoring started...");
-        try 
-        { 
-            LocalTime startTime = LocalTime.now(); 
-            LocalTime endTime = startTime.plusSeconds(durationSecond); 
-            System.out.println("Tutoring session started at " + formatTime(startTime) + " and will end at " + formatTime(endTime)); 
-            while(LocalTime.now().isBefore(endTime)) 
-            { 
-                // Simulate tutoring session 
-                Thread.sleep(durationSecond * 1000L);
+    public void menjalankanTutoring() {
+        // Logic to start tutoring
+        logger.info("Tutoring started...");
+        Scanner scan = InputUtils.getScanner();
+        try {
+            logger.info("Enter duration of the tutoring session in seconds: ");
+            int durationSecond = 0;
+            if (scan.hasNextLine()) {
+                String line = scan.nextLine();
+                if (!line.isEmpty()) {
+                    durationSecond = Integer.parseInt(line);
+                }
             }
-            System.out.println("Tutoring session ended at " + formatTime(LocalTime.now())); 
+            LocalTime startTime = LocalTime.now(ZoneId.systemDefault());
+            LocalTime endTime = startTime.plusSeconds(durationSecond);
+            logger.log(
+                Level.INFO,
+                "Tutoring session started at {0} and will end at {1}",
+                new Object[] { formatTime(startTime), formatTime(endTime) }
+            );
+            while (LocalTime.now(ZoneId.systemDefault()).isBefore(endTime)) {
+                // Simulate tutoring session
+                Thread.sleep(Duration.ofSeconds(durationSecond).toMillis());
+            }
+
+            // Sleep for 1 second to simulate time passing
+            logger.log(
+                Level.INFO,
+                "Tutoring session ended at {0}",
+                formatTime(LocalTime.now(ZoneId.systemDefault()))
+            );
+        } catch (InterruptedException e) {
+            logger.log(Level.SEVERE, "Tutoring session interrupted", e);
+            Thread.currentThread().interrupt();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "An error occurred: {0}", e.getMessage());
         }
-        catch (InterruptedException e) 
-        { 
-            System.out.println("An error occurred: " + e.getMessage()); 
-        }
-    } 
-    public void membuatLatihanSoal() 
-    {   
-        try 
-        {
-            // Logic to create exercises 
-            System.out.println("Creating exercises...");
+    }
+
+    public void membuatLatihanSoal() {
+        try {
+            // Logic to create exercises
+            logger.info("Creating exercises...");
             LatihanSoal ls = new LatihanSoal();
             ls.setBobot(70);
             ls.setKodeSoal("CCK131");
             ls.setKunciJawaban("Awam");
             ls.setDeadline(20);
-            System.out.println("Latihan soal sudah dibuat!");
-        } 
-        catch (Exception e) 
-        {
-            //System.err.println(e.fillInStackTrace());
-            //System.err.println(Arrays.toString(e.getStackTrace()));
-            System.err.println(e.getCause());
-            System.err.println(e.getMessage());
+            logger.info("Latihan soal sudah dibuat!");
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage(), e.getCause());
         }
     }
 
-    public void menilaiLatihanSoal() 
-    {   
-        try 
-        {
-            // Logic to evaluate exercises 
-            System.out.println("Evaluating exercises...");
+    public void menilaiLatihanSoal() {
+        try {
+            // Logic to evaluate exercises
+            logger.info("Evaluating exercises...");
             LatihanSoal ls = new LatihanSoal();
-            System.out.printf("%s, %s, %s, %s, %d, %d, %d\n", ls.getKodeSoal(), ls.getPertanyaan(), ls.getPilihanJawaban(), ls.getKunciJawaban(), ls.getWaktuPengerjaan(), ls.getBobot(), ls.getDeadline());
+            logger.log(
+                Level.INFO,
+                "{0}, {1}, {2}, {3}, {4}, {5}, {6}%n",
+                new Object[] {
+                    ls.getKodeSoal(),
+                    ls.getPertanyaan(),
+                    ls.getPilihanJawaban(),
+                    ls.getKunciJawaban(),
+                    ls.getWaktuPengerjaan(),
+                    ls.getBobot(),
+                    ls.getDeadline(),
+                }
+            );
             ls.periksaJawaban("Abah");
-            System.out.println("Jawaban sudah diperiksa!");
-        } 
-        catch (Exception e) 
-        {
-            //System.err.println(e.fillInStackTrace());
-            //System.err.println(Arrays.toString(e.getStackTrace()));
-            //System.err.println(e.getCause());
-            System.err.println(e.getMessage());
+            logger.info("Jawaban sudah diperiksa!");
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage());
         }
-        
-    } 
-    public void menguploadMateri() 
-    { 
-        try 
-        {
+    }
+
+    public void menguploadMateri() {
+        try {
             // Logic to upload material
-            System.out.println("Uploading material...");
+            logger.info("Uploading material...");
             Materi m = new Materi();
             m.setJudulMateri("Elektromagnetik");
-            m.setIsiMateri("Apa itu elektromagnetik? Elektromagnetik adalah....");
+            m.setIsiMateri(
+                "Apa itu elektromagnetik? Elektromagnetik adalah...."
+            );
             m.setSumberReferensi("https://www.listrik.co.id");
-            System.out.println("Material uploaded!");
-        } 
-        catch (Exception e) 
-        {
-            //System.err.println(e.fillInStackTrace());
-            //System.err.println(Arrays.toString(e.getStackTrace()));
-            System.err.println(e.getCause());
-            System.err.println(e.getMessage());
+            logger.info("Material uploaded!");
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage(), e.getCause());
         }
     }
-    
-    
+
     @Override
-    public void mengisiBioData(String nama, String dataLahir, String alamat, String jenisKelamin, int umur, String sekolah, String course, String tutor) 
-    { 
-        try 
-        {
-           setNama(nama);
-           setDataLahir(dataLahir);
-           setAlamat(alamat);
-           setJenisKelamin(jenisKelamin);
-           setUmur(umur);
-           setTempatBekerja(tempatBekerja);
-           setPengalaman(pengalaman);
-           setKemampuan(kemampuan);
-        } 
-        catch (Exception e) 
-        {
-            System.err.println(e.getCause());
-            System.err.println(e.getMessage());
+    public void mengisiBioData(BioData data) {
+        try {
+            setNama(data.nama());
+            setDataLahir(data.dataLahir());
+            setAlamat(data.alamat());
+            setJenisKelamin(data.jenisKelamin());
+            setUmur(data.umur());
+            setTempatBekerja(data.extra1());
+            setPengalaman(data.extra2());
+            setKemampuan(data.extra3());
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage(), e.getCause());
         }
-        System.out.println("BioData Filled");
+        logger.log(
+            Level.INFO,
+            "BioData Filled for tutor at {0}",
+            tempatBekerja
+        );
     }
-    
-    private String formatTime(LocalTime time) 
-    {
-        return String.format("%02d:%02d:%02d", time.getHour(), time.getMinute(), time.getSecond());
+
+    private String formatTime(LocalTime time) {
+        return String.format(
+            "%02d:%02d:%02d",
+            time.getHour(),
+            time.getMinute(),
+            time.getSecond()
+        );
     }
 }

@@ -3,12 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package regis.login;
-//import java.util.Arrays;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Bintang
  */
 public class Login extends User {
+
+    private static final Logger logger = Logger.getLogger(
+        Login.class.getName()
+    );
+
     // Constructor Login
     public Login(String username, String password) {
         super(username, password);
@@ -18,19 +26,22 @@ public class Login extends User {
         boolean isValid = false;
 
         try {
-            if (username.equals(getUsername()) && password.equals(getPassword())) {
+            if (
+                username.equals(getUsername()) && password.equals(getPassword())
+            ) {
                 isValid = true;
-                System.out.println("Login berhasil! Selamat datang, " + username);
+                logger.log(
+                    Level.INFO,
+                    "Login berhasil! Selamat datang, {0}",
+                    username
+                );
             } else {
-                throw new Exception("Username atau password salah.");
+                throw new IllegalArgumentException(
+                    "Username atau password salah."
+                );
             }
-        } catch (Exception e) 
-        {
-            //System.err.println(e.fillInStackTrace()); // Mencetak stack exception
-            //System.err.println(Arrays.toString(e.getStackTrace())); // Mencetaknya sebagai string (dari array)
-            //System.err.println(e.getCause()); // Penyebab exception
-            System.err.println("Error login" + e.getMessage()); // Pesan exception
-
+        } catch (IllegalArgumentException e) {
+            logger.log(Level.WARNING, "Error login: {0}", e.getMessage());
         }
 
         return isValid;

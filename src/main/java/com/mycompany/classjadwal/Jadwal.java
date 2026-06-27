@@ -8,8 +8,8 @@ package com.mycompany.classjadwal;
  *
  * @author Akfarizi
  */
+public class Jadwal {
 
- public class Jadwal {
     private int tanggal;
     private String bulan;
     private int tahun;
@@ -17,11 +17,11 @@ package com.mycompany.classjadwal;
     private String kelas;
     private String mataPelajaran;
 
-    public Jadwal(int tanggal, String bulan, int tahun, String hari, String kelas, String mataPelajaran) {
-        this.tanggal = tanggal;
-        this.bulan = bulan;
-        this.tahun = tahun;
-        this.hari = hari;
+    public Jadwal(DateInfo dateInfo, String kelas, String mataPelajaran) {
+        this.tanggal = dateInfo.tanggal();
+        this.bulan = dateInfo.bulan();
+        this.tahun = dateInfo.tahun();
+        this.hari = dateInfo.hari();
         this.kelas = kelas;
         this.mataPelajaran = mataPelajaran;
     }
