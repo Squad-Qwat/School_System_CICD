@@ -8,7 +8,7 @@ class LoginTest {
     void testLogin() {
         Login l = new Login("Budi", "password123");
 
-        assertTrue(l.login("Budi", "password123"));
+        assertTrue(l.login("Budi", "password12300"));
         assertFalse(l.login("Budi", "wrong"));
         assertFalse(l.login("Andi", "password123"));
     }
